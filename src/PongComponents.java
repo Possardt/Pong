@@ -11,7 +11,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private int ballx = 900;
 	private int bally = 400;
 	private int directionballx, directionbally = 0;
-	private int ballSpeed = 2;
+	private int ballSpeed = 3;
 	private int playerOnex, playerOney = 100;
 	private int playerTwox = 1738;
 	private int playerTwoy = 100;
@@ -22,7 +22,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	
 	//constructor
 	public PongComponents(){
-		//setBackground(Color.BLACK);
+		setBackground(Color.BLACK);
 		
 		setFocusable(true);
 		addKeyListener(this);
@@ -34,7 +34,10 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	//method for moving objects
 	public void step(){
 		//moving the ball on the court
-		if(ballx==1720 || ballx==0){directionballx++;}
+		if(ballx==1720 || ballx==0){
+			directionballx++;
+			resetBall();
+			}
 		
 		if(bally==800 || bally==0){directionbally++;}
 		System.out.println("X: " + ballx + " , Y: " + bally);
@@ -81,7 +84,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	@Override
 	public void paint(Graphics g){
 		super.paintComponent(g);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 	    g.fillOval(ballx, bally, 50, 50);
 	    
 	    //player one paddle
