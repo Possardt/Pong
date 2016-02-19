@@ -7,19 +7,16 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import ryanPossardt.*;
+import ericVanHeel.*;
+import scottCote.*;
+
 public class PongComponents extends JPanel implements ActionListener, KeyListener{
-	private int ballx = 900;
-	private int bally = 400;
-	private int directionballx, directionbally = 0;
-	private int ballSpeed = 3;
-	private int playerOnex, playerOney = 100;
-	private int playerTwox = 1738;
-	private int playerTwoy = 100;
-	private int paddleSpeed = 5;
+	private Ball ball = new Ball();
 	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo = false;
 	private static final long serialVersionUID = 1L;
-	
-	
+	private Paddle player1 = new Paddle(0,100);
+	private Paddle player2 = new Paddle(1738,100);
 	//constructor
 	public PongComponents(){
 		setBackground(Color.BLACK);
@@ -34,46 +31,50 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	//method for moving objects
 	public void step(){
 		//moving the ball on the court
-		if(ballx >= 1720 || ballx <= 0){
-			directionballx++;
+		if(ball.getBallx() >= 1720 || ball.getBallx() <= 0){
+			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
 		
-		if(bally >= 800 || bally <= 0){directionbally++;}
-		System.out.println("X: " + ballx + " , Y: " + bally);
-		if(directionballx%2 == 0){
-			ballx-=ballSpeed;
+		if(ball.getBally() >= 800 || ball.getBally() <= 0){
+			ball.setDirectionbally(ball.getDirectionbally() + 1);
+		}
+		System.out.println("X: " + ball.getBallx() + " , Y: " + ball.getBally());
+		if(ball.getDirectionballx()%2 == 0){
+			ball.setBallx(ball.getBallx() - ball.getBallSpeed());
 		}else{
-			ballx+=ballSpeed;
+			ball.setBallx(ball.getBallx() + ball.getBallSpeed());
 		}
 		
-		if(directionbally%2 == 0){
-			bally-=ballSpeed;
+		if(ball.getDirectionbally()%2 == 0){
+			ball.setBally(ball.getBally() - ball.getBallSpeed());
 		}else{
-			bally+=ballSpeed;
+			ball.setBally(ball.getBally() + ball.getBallSpeed());
 		}
 		
 		//moving player ones paddle
+		//up pressed
 		if(upPressedPlayerOne){
-			if(playerOney-paddleSpeed > 0){
-				playerOney -= paddleSpeed;
+			if(player1.getPaddleY()- player1.getPaddleSpeed() > 0){
+				player1.setPaddleY(player1.getPaddleY()- player1.getPaddleSpeed()) ;
 			}
 		}
+		//down pressed
 		if(downPressedPlayerOne){
-			if(playerOney + paddleSpeed + 140 < getHeight()){
-				playerOney += paddleSpeed;
+			if(player1.getPaddleY() + player1.getPaddleSpeed() + 140 < getHeight()){
+				player1.setPaddleY(player1.getPaddleY() + player1.getPaddleSpeed());
 			}
 		}
 		
 		//moving player two's paddle
 		if(upPressedPlayerTwo){
-			if(playerTwoy-paddleSpeed > 0){
-				playerTwoy -= paddleSpeed;
+			if(player2.getPaddleY() - player2.getPaddleSpeed() > 0){
+				player2.setPaddleY(player2.getPaddleY() - player2.getPaddleSpeed());
 			}
 		}
 		if(downPressedPlayerTwo){
-			if(playerTwoy + paddleSpeed + 140 < getHeight()){
-				playerTwoy += paddleSpeed;
+			if(player2.getPaddleY() + player2.getPaddleSpeed() + 140 < getHeight()){
+				player2.setPaddleY(player2.getPaddleY() + player2.getPaddleSpeed());
 			}
 		}
 		
@@ -85,14 +86,14 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-	    g.fillOval(ballx, bally, 50, 50);
+	    g.fillOval(ball.getBallx(), ball.getBally(), 50, 50);
 	    
 	    //player one paddle
-	    g.drawRect(playerOnex , playerOney, 40, 150);
-	    g.fillRect(playerOnex, playerOney, 40, 150);
+	    g.drawRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
+	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
 	    //player two paddle
-	    g.drawRect(playerTwox , playerTwoy, 40, 150);
-	    g.fillRect(playerTwox, playerTwoy, 40, 150);
+	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
+	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
 
 	}
 
@@ -133,10 +134,11 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 			downPressedPlayerTwo = false;
 		}
 	}
+	
 	//reset ball after score
 	public void resetBall(){
-		ballx = 900;
-		bally = 400;
+		ball.setBallx(900);
+		ball.setBally(400);
 	}
 
 	@Override
