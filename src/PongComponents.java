@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import ryanPossardt.*;
 import ericVanHeel.*;
 import scottCote.*;
+import danielMarciniec.*;
 
 public class PongComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();
