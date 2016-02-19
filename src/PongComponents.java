@@ -34,12 +34,12 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	//method for moving objects
 	public void step(){
 		//moving the ball on the court
-		if(ballx==1720 || ballx==0){
+		if(ballx >= 1720 || ballx <= 0){
 			directionballx++;
 			resetBall();
 			}
 		
-		if(bally==800 || bally==0){directionbally++;}
+		if(bally >= 800 || bally <= 0){directionbally++;}
 		System.out.println("X: " + ballx + " , Y: " + bally);
 		if(directionballx%2 == 0){
 			ballx-=ballSpeed;
