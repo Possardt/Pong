@@ -83,9 +83,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		}
 		
 		//checking to see if ball hit someones paddle
-		collisionDetection.hitPaddle(ball, player1, 0);
-		//collisionDetection.hitPaddle(ball, player2, 1738);
-		//doesn't work :(
+		collisionDetection.hitPaddle(ball, player1);
+		collisionDetection.hitPaddle(ball, player2);
 		
 		
 		//repaint to show reflected changes
