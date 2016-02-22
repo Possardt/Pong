@@ -18,6 +18,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private static final long serialVersionUID = 1L;
 	private Paddle player1 = new Paddle(0,100);
 	private Paddle player2 = new Paddle(1738,100);
+	CollisionDetection collisionDetection = new CollisionDetection();
 	//constructor
 	public PongComponents(){
 		setBackground(Color.BLACK);
@@ -40,7 +41,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if(ball.getBally() >= 800 || ball.getBally() <= 0){
 			ball.setDirectionbally(ball.getDirectionbally() + 1);
 		}
-		System.out.println("X: " + ball.getBallx() + " , Y: " + ball.getBally());
+		System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
+		System.out.println("Player two x: " + player2.getPaddleX() + ", Player two y: " + player2.getPaddleY());
 		if(ball.getDirectionballx()%2 == 0){
 			ball.setBallx(ball.getBallx() - ball.getBallSpeed());
 		}else{
@@ -60,6 +62,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				player1.setPaddleY(player1.getPaddleY()- player1.getPaddleSpeed()) ;
 			}
 		}
+		
 		//down pressed
 		if(downPressedPlayerOne){
 			if(player1.getPaddleY() + player1.getPaddleSpeed() + 140 < getHeight()){
@@ -78,6 +81,12 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				player2.setPaddleY(player2.getPaddleY() + player2.getPaddleSpeed());
 			}
 		}
+		
+		//checking to see if ball hit someones paddle
+		collisionDetection.hitPaddle(ball, player1, 0);
+		//collisionDetection.hitPaddle(ball, player2, 1738);
+		//doesn't work :(
+		
 		
 		//repaint to show reflected changes
 		repaint();
