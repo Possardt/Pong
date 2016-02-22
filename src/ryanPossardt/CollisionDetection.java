@@ -5,7 +5,7 @@ public class CollisionDetection {
 		//if ball hits paddle
 		if((ball.getBallx() - xBase < 40) && (paddle.getPaddleY() - ball.getBally() < 0)){
 			System.out.println("collision detected");
-			ball.setDirectionballx(ball.getDirectionballx() + 1);
+			//ball.setDirectionballx(ball.getDirectionballx() + 1);
 		}
 
 	}
