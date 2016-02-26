@@ -12,7 +12,7 @@ public class Main {
 		
 		//This code adds the menu panel and exits/starts game. Starting game
 		//breaks the paddle movement :(
-		/*
+		
 		Menu m = new Menu();
 		while (m.isGameRunning() == false){
 			j.add(m);
@@ -21,12 +21,13 @@ public class Main {
 		}
 		j.remove(m);
 		j.repaint();
-		*/
+		
 		
 		PongComponents p = new PongComponents();
 		j.add(p, BorderLayout.CENTER);
 		j.setSize(1800, 900);
 		j.setVisible(true);
+		p.requestFocusInWindow();
 		
 	}
 
