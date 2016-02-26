@@ -26,7 +26,7 @@ public class Main {
 		j.add(p, BorderLayout.CENTER);
 		j.setSize(1800, 900);
 		j.setVisible(true);
-
+		p.requestFocusInWindow();
 		
 	}
 
