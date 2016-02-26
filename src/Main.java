@@ -22,7 +22,6 @@ public class Main {
 		j.remove(m);
 		j.repaint();
 		
-		
 		PongComponents p = new PongComponents();
 		j.add(p, BorderLayout.CENTER);
 		j.setSize(1800, 900);

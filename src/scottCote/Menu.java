@@ -26,7 +26,7 @@ public class Menu extends JPanel implements ActionListener {
 		this.exitButton.addActionListener(this);
 		this.add(exitButton);
 	}
-	
+	@Override
 	public void actionPerformed(ActionEvent e){
 		Object source = e.getSource();
 		if(source == this.exitButton){
