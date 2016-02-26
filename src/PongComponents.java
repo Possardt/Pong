@@ -17,7 +17,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo = false;
 	private static final long serialVersionUID = 1L;
 	private Paddle player1 = new Paddle(0,100);
-	private Paddle player2 = new Paddle(1738,100);
+	private Paddle player2 = new Paddle(1737,100);
 	CollisionDetection collisionDetection = new CollisionDetection();
 	//constructor
 	public PongComponents(){
