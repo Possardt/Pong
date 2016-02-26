@@ -148,6 +148,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	public void resetBall(){
 		ball.setBallx(900);
 		ball.setBally(400);
+		ball.setBallSpeed(3);
 	}
 
 	@Override
