@@ -97,6 +97,21 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		g.setColor(Color.WHITE);
 	    g.fillOval(ball.getBallx(), ball.getBally(), 50, 50);
 	    
+	    //lines down center of court
+	    //getWidth()/2 yields 889
+	    g.drawRect(884, 0, 10, 100);
+	    g.fillRect(884, 0, 10, 100);
+	    g.drawRect(884, 150, 10, 100);
+	    g.fillRect(884, 150, 10, 100);
+	    g.drawRect(884, 300, 10, 100);
+	    g.fillRect(884, 300, 10, 100);
+	    g.drawRect(884, 450, 10, 100);
+	    g.fillRect(884, 450, 10, 100);
+	    g.drawRect(884, 600, 10, 100);
+	    g.fillRect(884, 600, 10, 100);
+	    g.drawRect(884, 750, 10, 100);
+	    g.fillRect(884, 750, 10, 100);
+
 	    //player one paddle
 	    g.drawRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
 	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
