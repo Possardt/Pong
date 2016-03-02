@@ -30,6 +30,13 @@ public class Ball {
 	public int getDirectionbally() {
 		return directionbally;
 	}
+	public boolean yDirectionIsEven(){
+		boolean isEven = false;
+		if (directionbally%2 == 0){
+			isEven = true;
+		}
+		return isEven;
+	}
 	public void setDirectionbally(int directionbally) {
 		this.directionbally = directionbally;
 	}

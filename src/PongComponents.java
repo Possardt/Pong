@@ -41,8 +41,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if(ball.getBally() >= 800 || ball.getBally() <= 0){
 			ball.setDirectionbally(ball.getDirectionbally() + 1);
 		}
-		System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
-		System.out.println("Player two x: " + player2.getPaddleX() + ", Player two y: " + player2.getPaddleY());
+		//System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
+		//System.out.println("Player two x: " + player2.getPaddleX() + ", Player two y: " + player2.getPaddleY());
 		if(ball.getDirectionballx()%2 == 0){
 			ball.setBallx(ball.getBallx() - ball.getBallSpeed());
 		}else{
