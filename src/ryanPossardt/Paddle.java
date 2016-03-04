@@ -4,11 +4,20 @@ public class Paddle {
 	
 	private int paddleX,paddleY;
 	private int paddleSpeed;
+	private int score = 0;
 	
 	public Paddle(int x, int y){
 		this.paddleX = x;
 		this.paddleY = y;
 		paddleSpeed = 5;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public void addGoal() {
+		score++;
 	}
 	
 	public int getPaddleX() {

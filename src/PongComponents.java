@@ -1,9 +1,11 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -33,7 +35,13 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	//method for moving objects
 	public void step(){
 		//moving the ball on the court
-		if(ball.getBallx() >= 1720 || ball.getBallx() <= 0){
+		if(ball.getBallx() >= 1720){
+			player1.addGoal();
+			ball.setDirectionballx(ball.getDirectionballx() + 1);
+			resetBall();
+			}
+		if(ball.getBallx() <= 0){
+			player2.addGoal();
 			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
@@ -95,7 +103,10 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
+		Font font = new Font("Times New Roman", Font.PLAIN, 60);
+		g.setFont(font);
 	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), 50, 50);
+
 	    
 	    //lines down center of court
 	    //getWidth()/2 yields 889
@@ -111,6 +122,12 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    g.fillRect(884, 600, 10, 100);
 	    g.drawRect(884, 750, 10, 100);
 	    g.fillRect(884, 750, 10, 100);
+	    
+	    //score
+	    String p1score = Integer.toString(player1.getScore());
+	    String p2score = Integer.toString(player2.getScore());
+	    g.drawString(p1score, 784, 70);
+	    g.drawString(p2score, 974, 70);
 
 	    //player one paddle
 	    g.drawRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
