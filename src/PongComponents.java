@@ -44,15 +44,15 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		//System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
 		//System.out.println("Player two x: " + player2.getPaddleX() + ", Player two y: " + player2.getPaddleY());
 		if(ball.getDirectionballx()%2 == 0){
-			ball.setBallx(ball.getBallx() - ball.getBallSpeed());
+			ball.setBallx(ball.getBallx() - ball.getBallSpeedX());
 		}else{
-			ball.setBallx(ball.getBallx() + ball.getBallSpeed());
+			ball.setBallx(ball.getBallx() + ball.getBallSpeedX());
 		}
 		
 		if(ball.getDirectionbally()%2 == 0){
-			ball.setBally(ball.getBally() - ball.getBallSpeed());
+			ball.setBally(ball.getBally() - ball.getBallSpeedY());
 		}else{
-			ball.setBally(ball.getBally() + ball.getBallSpeed());
+			ball.setBally(ball.getBally() + ball.getBallSpeedY());
 		}
 		
 		//moving player ones paddle
@@ -95,7 +95,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-	    g.fillOval(ball.getBallx(), ball.getBally(), 50, 50);
+	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), 50, 50);
 	    
 	    //lines down center of court
 	    //getWidth()/2 yields 889
@@ -163,7 +163,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	public void resetBall(){
 		ball.setBallx(900);
 		ball.setBally(400);
-		ball.setBallSpeed(3);
+		ball.setBallSpeedX(3);
+		ball.setBallSpeedY(3);
 	}
 
 	@Override

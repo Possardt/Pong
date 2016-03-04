@@ -1,24 +1,42 @@
 package ryanPossardt;
 
 public class Ball {
-	private int ballx = 900;
-	private int bally = 400;
+	private float ballx = 900;
+	private float bally = 400;
 	private int directionballx, directionbally = 0;
-	private int ballSpeed = 3;
+	private float ballSpeedX = 3;
+	private float ballSpeedY = 3;
+	
+	public float getBallSpeedX() {
+		return ballSpeedX;
+	}
+
+	public void setBallSpeedX(float ballSpeedX) {
+		this.ballSpeedX = ballSpeedX;
+	}
+
+	public float getBallSpeedY() {
+		return ballSpeedY;
+	}
+
+	public void setBallSpeedY(float ballSpeedY) {
+		this.ballSpeedY = ballSpeedY;
+	}
+
 	public Ball(){
 		
 	}
 	
-	public int getBallx() {
+	public float getBallx() {
 		return ballx;
 	}
-	public void setBallx(int ballx) {
+	public void setBallx(float ballx) {
 		this.ballx = ballx;
 	}
-	public int getBally() {
+	public float getBally() {
 		return bally;
 	}
-	public void setBally(int bally) {
+	public void setBally(float bally) {
 		this.bally = bally;
 	}
 	public int getDirectionballx() {
@@ -40,10 +58,5 @@ public class Ball {
 	public void setDirectionbally(int directionbally) {
 		this.directionbally = directionbally;
 	}
-	public int getBallSpeed() {
-		return ballSpeed;
-	}
-	public void setBallSpeed(int ballSpeed) {
-		this.ballSpeed = ballSpeed;
-	}
+	
 }

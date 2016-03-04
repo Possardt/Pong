@@ -2,30 +2,40 @@ package ryanPossardt;
 
 public class CollisionDetection {
 	
+	public float calculateYBallSpeed(float delta){
+		float temp = Math.abs(delta - 70)/10;
+		return temp;
+	}
+	
 	private boolean topHit(Ball ball, Paddle paddle){
 		boolean topHit = true;
-		int delta = ball.getBally() - paddle.getPaddleY() + 25;
+		float delta = ball.getBally() - paddle.getPaddleY() + 25;
 		if (delta <=0 || delta >= 70){
 			topHit = false;
+			System.out.println("Bottom hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
 		}
 		return topHit;
 	}
 	
 	private boolean bottomHit(Ball ball, Paddle paddle){
 		boolean bottomHit = true;
-		int delta = ball.getBally()-paddle.getPaddleY() + 25;
+		float delta = ball.getBally()-paddle.getPaddleY() + 25;
 		if (delta < 70 || delta >= 140){
 			bottomHit = false;
+			System.out.println("Top hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
 		}
 		return bottomHit;
 	}
 	
 	public void hitPaddle(Ball ball, Paddle paddle){
+		float delta = ball.getBally()-paddle.getPaddleY() + 25;
+		
 		//if ball hits paddle
 		if(paddle.getPaddleX() < 100){
 			if((paddle.getPaddleX() - ball.getBallx() > -40) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				if (topHit(ball, paddle)){
-					ball.setBallSpeed(ball.getBallSpeed() + 1);					//increase speed
+					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
+					ball.setBallSpeedY(calculateYBallSpeed(delta));
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (!ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction up
@@ -33,7 +43,8 @@ public class CollisionDetection {
 
 				}
 				if (bottomHit(ball, paddle)){
-					ball.setBallSpeed(ball.getBallSpeed() + 1);					//increase speed
+					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
+					ball.setBallSpeedY(calculateYBallSpeed(delta));
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction down
@@ -43,7 +54,8 @@ public class CollisionDetection {
 		}else{		//
 			if((paddle.getPaddleX() - ball.getBallx() < 50) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				if (topHit(ball, paddle)){
-					ball.setBallSpeed(ball.getBallSpeed() + 1);					//increase speed
+					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
+					ball.setBallSpeedY(calculateYBallSpeed(delta));
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (!ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction up
@@ -51,7 +63,8 @@ public class CollisionDetection {
 
 				}
 				if (bottomHit(ball, paddle)){
-					ball.setBallSpeed(ball.getBallSpeed() + 1);					//increase speed
+					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
+					ball.setBallSpeedY(calculateYBallSpeed(delta));
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction down
