@@ -10,10 +10,12 @@ import java.awt.Graphics;
 public class Menu extends JPanel implements KeyListener {
 	
 	private static final long serialVersionUID = 1L;
-	private boolean isGameRunning;
+	private boolean isSinglePlayerGameRunning;
+	private boolean isTwoPlayerGameRunning;
 
 	public Menu(){
-		setGameRunning(false);
+		setSingplePlayerGameRunning(false);
+		setTwoPlayerGameRunning(false);
 		setBackground(Color.BLACK);
 		setFocusable(true);
 		addKeyListener(this);
@@ -31,24 +33,29 @@ public class Menu extends JPanel implements KeyListener {
 	    String title = "PONG";
 	    String byOne = "by: Eric, Scott, Dan, and Ryan";
 	    String byTwo = "CSE 2102";
-	    String newGame = "(N) New Single Player Game";
+	    String newSinglePlayerGame = "(N) New Two Player Game";
+	    String newTwoPlayerGame = "(S) New Single Player Game";
 	    String exitApp = "(X) Exit Game";
 	    g.drawString(title, 140, 140);
 	    g.setFont(byFont);
 	    g.drawString(byOne, 140, 210);
 	    g.drawString(byTwo, 140, 240);
 	    g.setFont(controlFont);
-	    g.drawString(newGame, 140, 300);
-	    g.drawString(exitApp, 140, 340);
+	    g.drawString(newSinglePlayerGame, 140, 300);
+	    g.drawString(newTwoPlayerGame, 140, 340);
+	    g.drawString(exitApp, 140, 380);
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		if(ke.getKeyCode() == KeyEvent.VK_N){
-			setGameRunning(true);
+			setTwoPlayerGameRunning(true);
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_X){
 			System.exit(0);
+		}
+		if(ke.getKeyCode() == KeyEvent.VK_S){
+			setSingplePlayerGameRunning(true);
 		}
 	}
 	
@@ -62,12 +69,20 @@ public class Menu extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 	}
 
-	public boolean isGameRunning() {
-		return isGameRunning;
+	public boolean isSinglePlayerGameRunning() {
+		return isSinglePlayerGameRunning;
 	}
 
-	public void setGameRunning(boolean status) {
-		this.isGameRunning = status;
+	public void setSingplePlayerGameRunning(boolean status) {
+		this.isSinglePlayerGameRunning = status;
+	}
+	
+	public boolean isTwoPlayerGameRunning() {
+		return isTwoPlayerGameRunning;
+	}
+
+	public void setTwoPlayerGameRunning(boolean status) {
+		this.isTwoPlayerGameRunning = status;
 	}
 
 }

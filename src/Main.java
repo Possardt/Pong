@@ -11,7 +11,7 @@ public class Main {
 		j.setLayout(new BorderLayout());
 		
 		Menu m = new Menu();
-		while (m.isGameRunning() == false){
+		while (m.isTwoPlayerGameRunning() == false){
 			j.add(m, BorderLayout.CENTER);
 			j.setSize(1800, 900);
 			j.setVisible(true);
