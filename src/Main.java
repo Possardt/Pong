@@ -10,14 +10,13 @@ public class Main {
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		j.setLayout(new BorderLayout());
 		
-		//This code adds the menu panel and exits/starts game. Starting game
-		//breaks the paddle movement :(
-		
 		Menu m = new Menu();
 		while (m.isGameRunning() == false){
-			j.add(m);
+			j.add(m, BorderLayout.CENTER);
 			j.setSize(1800, 900);
 			j.setVisible(true);
+			m.requestFocusInWindow();
+			
 		}
 		j.remove(m);
 		j.repaint();

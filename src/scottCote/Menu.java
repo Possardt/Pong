@@ -1,63 +1,67 @@
 package scottCote;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
+import java.awt.Font;
+import java.awt.Graphics;
 
-public class Menu extends JPanel implements ActionListener {
+public class Menu extends JPanel implements KeyListener {
 	
 	private static final long serialVersionUID = 1L;
 	private boolean isGameRunning;
-	private JButton startButton;
-	private JButton exitButton;
-
-	
-	private GridBagConstraints getGBC(int x, int y){
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = x;
-		gbc.gridy = y;
-		return gbc;
-	}
 
 	public Menu(){
 		setGameRunning(false);
 		setBackground(Color.BLACK);
 		setFocusable(true);
-		this.setLayout(new GridBagLayout());
-		
-
-		
-		this.startButton = new JButton("New Game");
-		this.startButton.addActionListener(this);
-		this.add(this.startButton, getGBC(0,1));
-		
-		this.exitButton = new JButton("Exit");
-		this.exitButton.addActionListener(this);
-		this.add(this.exitButton, getGBC(0,2));
+		addKeyListener(this);
+		repaint();
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e){
-		Object source = e.getSource();
-		if(source == this.exitButton){
+	public void paint(Graphics g){
+		super.paintComponent(g);
+		g.setColor(Color.WHITE);
+		Font font = new Font("Times New Roman", Font.PLAIN, 60);
+		g.setFont(font);
+	    String title = "PONG - Classic";
+	    String by = "by: Eric, Scott, Dan, and Ryan";
+	    String newGame = "New Game (N)";
+	    String exitApp = "Exit Game (X)";
+	    g.drawString(title, 140, 140);
+	    g.drawString(by, 140, 210);
+	    g.drawString(newGame, 140, 280);
+	    g.drawString(exitApp, 140, 350);
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent ke) {
+		if(ke.getKeyCode() == KeyEvent.VK_N){
+			setGameRunning(true);
+		}
+		if(ke.getKeyCode() == KeyEvent.VK_X){
 			System.exit(0);
 		}
-		else if (source == this.startButton){
-			setGameRunning(true);
-			System.out.println(isGameRunning);
-		}
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent ke) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void keyTyped(KeyEvent ke) {
+		// TODO Auto-generated method stub
 	}
 
 	public boolean isGameRunning() {
 		return isGameRunning;
 	}
 
-	public void setGameRunning(boolean isGameRunning) {
-		this.isGameRunning = isGameRunning;
+	public void setGameRunning(boolean status) {
+		this.isGameRunning = status;
 	}
 
 }
