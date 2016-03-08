@@ -24,16 +24,22 @@ public class Menu extends JPanel implements KeyListener {
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-		Font font = new Font("Times New Roman", Font.PLAIN, 60);
-		g.setFont(font);
-	    String title = "PONG - Classic";
-	    String by = "by: Eric, Scott, Dan, and Ryan";
-	    String newGame = "New Game (N)";
-	    String exitApp = "Exit Game (X)";
+		Font titleFont = new Font("Times New Roman", Font.BOLD, 60);
+		Font byFont = new Font("Times New Roman", Font.PLAIN, 20);
+		Font controlFont = new Font("Times New Roman", Font.BOLD, 30);
+		g.setFont(titleFont);
+	    String title = "PONG";
+	    String byOne = "by: Eric, Scott, Dan, and Ryan";
+	    String byTwo = "CSE 2102";
+	    String newGame = "(N) New Single Player Game";
+	    String exitApp = "(X) Exit Game";
 	    g.drawString(title, 140, 140);
-	    g.drawString(by, 140, 210);
-	    g.drawString(newGame, 140, 280);
-	    g.drawString(exitApp, 140, 350);
+	    g.setFont(byFont);
+	    g.drawString(byOne, 140, 210);
+	    g.drawString(byTwo, 140, 240);
+	    g.setFont(controlFont);
+	    g.drawString(newGame, 140, 300);
+	    g.drawString(exitApp, 140, 340);
 	}
 	
 	@Override
