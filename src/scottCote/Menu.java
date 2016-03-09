@@ -26,9 +26,9 @@ public class Menu extends JPanel implements KeyListener {
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-		Font titleFont = new Font("Times New Roman", Font.BOLD, 60);
-		Font byFont = new Font("Times New Roman", Font.PLAIN, 20);
-		Font controlFont = new Font("Times New Roman", Font.BOLD, 30);
+		Font titleFont = new Font("Bauhaus 93", Font.BOLD, 60);
+		Font byFont = new Font("Bauhaus 93", Font.PLAIN, 20);
+		Font controlFont = new Font("Bauhaus 93", Font.BOLD, 30);
 		g.setFont(titleFont);
 	    String title = "PONG";
 	    String byOne = "by: Eric, Scott, Dan, and Ryan";

@@ -103,7 +103,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-		Font font = new Font("Times New Roman", Font.PLAIN, 60);
+		Font font = new Font("Bauhaus 93", Font.PLAIN, 60);
 		g.setFont(font);
 	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), 50, 50);
 
