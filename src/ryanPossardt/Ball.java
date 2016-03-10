@@ -6,7 +6,19 @@ public class Ball {
 	private int directionballx, directionbally = 0;
 	private float ballSpeedX = 3;
 	private float ballSpeedY = 3;
+	private Paddle lastPaddleHit;
+	//lastPaddleHit is to be used for powerups, when we need to determine which paddle
+	//	to apply the powerup to.
 	
+	public Paddle getLastPaddleHit() {
+		return lastPaddleHit;
+	}
+
+	public void setLastPaddleHit(Paddle lastPaddleHit) {
+		//System.out.println(lastPaddleHit.getPaddleX());
+		this.lastPaddleHit = lastPaddleHit;
+	}
+
 	public float getBallSpeedX() {
 		return ballSpeedX;
 	}

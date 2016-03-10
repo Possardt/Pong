@@ -35,7 +35,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	//method for moving objects
 	public void step(){
 		//moving the ball on the court
-		if(ball.getBallx() >= 1720){
+		if(ball.getBallx() >= 1726){
 			player1.addGoal();
 			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
@@ -46,7 +46,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 			resetBall();
 			}
 		
-		if(ball.getBally() >= 800 || ball.getBally() <= 0){
+		if(ball.getBally() >= 793 || ball.getBally() <= 0){
 			ball.setDirectionbally(ball.getDirectionbally() + 1);
 		}
 		//System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
@@ -178,8 +178,14 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	
 	//reset ball after score
 	public void resetBall(){
-		ball.setBallx(900);
-		ball.setBally(400);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ball.setBallx(884);
+		ball.setBally(350);
 		ball.setBallSpeedX(3);
 		ball.setBallSpeedY(3);
 	}

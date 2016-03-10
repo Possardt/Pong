@@ -33,6 +33,7 @@ public class CollisionDetection {
 		//if ball hits paddle
 		if(paddle.getPaddleX() < 100){
 			if((paddle.getPaddleX() - ball.getBallx() > -40) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
+				ball.setLastPaddleHit(paddle);
 				if (topHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
 					ball.setBallSpeedY(calculateYBallSpeed(delta));
@@ -50,9 +51,11 @@ public class CollisionDetection {
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction down
 					}
 				}
+				ball.setLastPaddleHit(paddle);
 			}
 		}else{		//
 			if((paddle.getPaddleX() - ball.getBallx() < 50) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
+				ball.setLastPaddleHit(paddle);
 				if (topHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
 					ball.setBallSpeedY(calculateYBallSpeed(delta));
