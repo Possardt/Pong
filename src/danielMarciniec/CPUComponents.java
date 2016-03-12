@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import ryanPossardt.*;
-import ericVanHeel.*;
-import scottCote.*;
 
 public class CPUComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();

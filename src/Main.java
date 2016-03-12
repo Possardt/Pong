@@ -29,7 +29,6 @@ public class Main {
 			j.setVisible(true);
 			p.requestFocusInWindow();
 		}
-		
 		if (m.isSinglePlayerGameRunning()) {
 			CPUComponents p = new CPUComponents();
 			j.add(p, BorderLayout.CENTER);
