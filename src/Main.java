@@ -2,6 +2,7 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
 import scottCote.*;
+import danielMarciniec.*;
 
 public class Main {
 
@@ -11,7 +12,7 @@ public class Main {
 		j.setLayout(new BorderLayout());
 		
 		Menu m = new Menu();
-		while (m.isTwoPlayerGameRunning() == false){
+		while (m.isTwoPlayerGameRunning() == false && m.isSinglePlayerGameRunning() == false){
 			j.add(m, BorderLayout.CENTER);
 			j.setSize(1800, 900);
 			j.setVisible(true);
@@ -21,11 +22,21 @@ public class Main {
 		j.remove(m);
 		j.repaint();
 		
-		PongComponents p = new PongComponents();
-		j.add(p, BorderLayout.CENTER);
-		j.setSize(1800, 900);
-		j.setVisible(true);
-		p.requestFocusInWindow();
+		if (m.isTwoPlayerGameRunning()) {
+			PongComponents p = new PongComponents();
+			j.add(p, BorderLayout.CENTER);
+			j.setSize(1800, 900);
+			j.setVisible(true);
+			p.requestFocusInWindow();
+		}
+		
+		if (m.isSinglePlayerGameRunning()) {
+			CPUComponents p = new CPUComponents();
+			j.add(p, BorderLayout.CENTER);
+			j.setSize(1800, 900);
+			j.setVisible(true);
+			p.requestFocusInWindow();
+		}
 		
 	}
 
