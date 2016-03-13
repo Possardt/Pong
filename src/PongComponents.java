@@ -178,10 +178,10 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	
 	//reset ball after score
 	public void resetBall(){
+		//hold ball in center before game starts
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ball.setBallx(884);

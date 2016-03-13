@@ -45,7 +45,7 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			resetBall();
 			}
 		
-		if(ball.getBally() >= 800 || ball.getBally() <= 0){
+		if(ball.getBally() >= 793 || ball.getBally() <= 0){
 			ball.setDirectionbally(ball.getDirectionbally() + 1);
 		}
 		//System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
@@ -105,7 +105,7 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-		Font font = new Font("Times New Roman", Font.PLAIN, 60);
+		Font font = new Font("Bauhaus 93", Font.PLAIN, 60);
 		g.setFont(font);
 	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), 50, 50);
 
