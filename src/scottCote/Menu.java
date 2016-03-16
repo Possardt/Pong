@@ -10,8 +10,8 @@ import java.awt.Graphics;
 public class Menu extends JPanel implements KeyListener {
 	
 	private static final long serialVersionUID = 1L;
-	private boolean isSinglePlayerGameRunning;
-	private boolean isTwoPlayerGameRunning;
+	private volatile boolean isSinglePlayerGameRunning;
+	private volatile boolean isTwoPlayerGameRunning;
 
 	public Menu(){
 		setSingplePlayerGameRunning(false);
