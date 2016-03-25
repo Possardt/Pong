@@ -26,9 +26,9 @@ public class Menu extends JPanel implements KeyListener {
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-		Font titleFont = new Font("Bauhaus 93", Font.BOLD, 60);
-		Font byFont = new Font("Bauhaus 93", Font.PLAIN, 20);
-		Font controlFont = new Font("Bauhaus 93", Font.BOLD, 30);
+		Font titleFont = new Font("Bauhaus 93", Font.PLAIN, 100);
+		Font byFont = new Font("Bauhaus 93", Font.PLAIN, 40);
+		Font controlFont = new Font("Bauhaus 93", Font.PLAIN, 60);
 		g.setFont(titleFont);
 	    String title = "PONG";
 	    String byOne = "by: Eric, Scott, Dan, and Ryan";
@@ -39,11 +39,11 @@ public class Menu extends JPanel implements KeyListener {
 	    g.drawString(title, 140, 140);
 	    g.setFont(byFont);
 	    g.drawString(byOne, 140, 210);
-	    g.drawString(byTwo, 140, 240);
+	    g.drawString(byTwo, 140, 250);
 	    g.setFont(controlFont);
-	    g.drawString(newSinglePlayerGame, 140, 300);
-	    g.drawString(newTwoPlayerGame, 140, 340);
-	    g.drawString(exitApp, 140, 380);
+	    g.drawString(newSinglePlayerGame, 140, 340);
+	    g.drawString(newTwoPlayerGame, 140, 400);
+	    g.drawString(exitApp, 140, 460);
 	}
 	
 	@Override
