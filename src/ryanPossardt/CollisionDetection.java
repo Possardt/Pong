@@ -9,8 +9,8 @@ public class CollisionDetection {
 	}
 	//to get angle between ball/paddle to eventually make colision between ball and corner of paddle
 	public double calculateAngleBetweenPoints(Ball b, Paddle p){
-		double xDiff = b.getBallx() - p.getPaddleX();
-		double yDiff = b.getBally() - p.getPaddleY();
+		double xDiff = b.getBallCenterX() - (p.getPaddleX() + 40);
+		double yDiff = b.getBallCenterY() - p.getPaddleY();
 		return Math.toDegrees(Math.atan2(xDiff , yDiff));
 	}
 	
@@ -36,10 +36,11 @@ public class CollisionDetection {
 	
 	public void hitPaddle(Ball ball, Paddle paddle){
 		float delta = ball.getBally()-paddle.getPaddleY() + 25;
-		double angle = calculateAngleBetweenPoints(ball,paddle);		
-		//System.out.println("Angle between ball/paddle: " + angle);
+
 		//if ball hits paddle
 		if(paddle.getPaddleX() < 100){
+			double angle = calculateAngleBetweenPoints(ball,paddle);		
+			System.out.println("Angle between ball/paddle: " + angle);
 			if((paddle.getPaddleX() - ball.getBallx() > -40) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				ball.setLastPaddleHit(paddle);
 				if (topHit(ball, paddle)){
