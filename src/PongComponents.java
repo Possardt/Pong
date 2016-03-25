@@ -189,8 +189,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		ball.setDirectionbally(getRandomDirection());
 		ball.setBallx(884);
 		ball.setBally(350);
-		ball.setBallSpeedX(3);
-		ball.setBallSpeedY(3);
+		ball.setBallSpeedX(getRandomSpeed());
+		ball.setBallSpeedY(getRandomSpeed());
 	}
 	
 	public int getRandomDirection(){
@@ -200,6 +200,12 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 			direction *= -1;
 		System.out.println(direction);
 		return (int)direction;
+	}
+	
+	public int getRandomSpeed(){
+		double speed = Math.random();
+		speed = (speed * 10) % 5;
+		return (int)speed;
 	}
 
 	@Override
