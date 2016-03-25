@@ -16,8 +16,8 @@ public class CollisionDetection {
 	
 	private boolean topHit(Ball ball, Paddle paddle){
 		boolean topHit = true;
-		float delta = ball.getBally() - paddle.getPaddleY() + 25;
-		if (delta <=0 || delta >= 70){
+		float delta = ball.getBally() - paddle.getPaddleY();
+		if (delta <=-50 || delta >= 50){
 			topHit = false;
 			System.out.println("Bottom hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
 		}
@@ -26,8 +26,8 @@ public class CollisionDetection {
 	
 	private boolean bottomHit(Ball ball, Paddle paddle){
 		boolean bottomHit = true;
-		float delta = ball.getBally()-paddle.getPaddleY() + 25;
-		if (delta < 70 || delta >= 140){
+		float delta = ball.getBally()-paddle.getPaddleY();
+		if (delta < 50 || delta >= 150){
 			bottomHit = false;
 			System.out.println("Top hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
 		}

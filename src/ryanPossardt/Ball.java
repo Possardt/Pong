@@ -70,5 +70,11 @@ public class Ball {
 	public void setDirectionbally(int directionbally) {
 		this.directionbally = directionbally;
 	}
+	public float getBallCenterX(){
+		return (getBallx() + 25);
+	}
+	public float getBallCenterY(){
+		return (getBally() + 25);
+	}
 	
 }
