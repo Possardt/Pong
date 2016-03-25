@@ -1,3 +1,4 @@
+
 package ryanPossardt;
 
 public class CollisionDetection {
@@ -5,6 +6,12 @@ public class CollisionDetection {
 	public float calculateYBallSpeed(float delta){
 		float temp = Math.abs(delta - 70)/10;
 		return temp;
+	}
+	//to get angle between ball/paddle to eventually make colision between ball and corner of paddle
+	public double calculateAngleBetweenPoints(Ball b, Paddle p){
+		double xDiff = b.getBallx() - p.getPaddleX();
+		double yDiff = b.getBally() - p.getPaddleY();
+		return Math.toDegrees(Math.atan2(xDiff , yDiff));
 	}
 	
 	private boolean topHit(Ball ball, Paddle paddle){
@@ -29,7 +36,8 @@ public class CollisionDetection {
 	
 	public void hitPaddle(Ball ball, Paddle paddle){
 		float delta = ball.getBally()-paddle.getPaddleY() + 25;
-		
+		double angle = calculateAngleBetweenPoints(ball,paddle);		
+		//System.out.println("Angle between ball/paddle: " + angle);
 		//if ball hits paddle
 		if(paddle.getPaddleX() < 100){
 			if((paddle.getPaddleX() - ball.getBallx() > -40) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
