@@ -184,10 +184,22 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		//need to move ball randomly off reset
+		ball.setDirectionballx(getRandomDirection());
+		ball.setDirectionbally(getRandomDirection());
 		ball.setBallx(884);
 		ball.setBally(350);
 		ball.setBallSpeedX(3);
 		ball.setBallSpeedY(3);
+	}
+	
+	public int getRandomDirection(){
+		double direction = Math.random() * 10;
+		double way = Math.random();
+		if(way > .50)
+			direction *= -1;
+		System.out.println(direction);
+		return (int)direction;
 	}
 
 	@Override
