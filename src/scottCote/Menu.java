@@ -2,16 +2,27 @@ package scottCote;
 
 import java.awt.Color;
 import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
+import javax.swing.Timer;
+
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class Menu extends JPanel implements KeyListener {
+import ryanPossardt.*;
+
+public class Menu extends JPanel implements ActionListener, KeyListener {
 	
 	private static final long serialVersionUID = 1L;
 	private volatile boolean isSinglePlayerGameRunning;
 	private volatile boolean isTwoPlayerGameRunning;
+	private Ball ballOne = new Ball();
+	private Ball ballTwo = new Ball();
+	CollisionDetection collisionDetection = new CollisionDetection();
+
+	
 
 	public Menu(){
 		setSingplePlayerGameRunning(false);
@@ -19,6 +30,62 @@ public class Menu extends JPanel implements KeyListener {
 		setBackground(Color.BLACK);
 		setFocusable(true);
 		addKeyListener(this);
+		repaint();
+		
+		Timer timer = new Timer(1000/60, this);
+		timer.start();
+		
+		ballOne.setBallx(400);
+		ballOne.setBally(500);
+		ballOne.setBallSpeedX(6);
+		ballOne.setBallSpeedY(6);
+		
+		ballTwo.setBallx(700);
+		ballTwo.setBally(300);
+		ballTwo.setBallSpeedX(-6);
+		ballTwo.setBallSpeedY(-6);
+	}
+	
+	public void step(){
+		
+		if(collisionDetection.verticalWallHit(ballOne)){
+			ballOne.setDirectionballx(ballOne.getDirectionballx() + 1);
+		}
+		if(collisionDetection.horizontalWallHit(ballOne)){
+			ballOne.setDirectionbally(ballOne.getDirectionbally() + 1);
+		}
+		if(ballOne.getDirectionballx()%2 == 0){
+			ballOne.setBallx(ballOne.getBallx() - ballOne.getBallSpeedX());
+		}else{
+			ballOne.setBallx(ballOne.getBallx() + ballOne.getBallSpeedX());
+		}
+		if(ballOne.getDirectionbally()%2 == 0){
+			ballOne.setBally(ballOne.getBally() - ballOne.getBallSpeedY());
+		}else{
+			ballOne.setBally(ballOne.getBally() + ballOne.getBallSpeedY());
+		}
+		
+		if(collisionDetection.verticalWallHit(ballTwo)){
+			ballTwo.setDirectionballx(ballTwo.getDirectionballx() + 1);
+		}
+		if(collisionDetection.horizontalWallHit(ballTwo)){
+			ballTwo.setDirectionbally(ballTwo.getDirectionbally() + 1);
+		}
+		if(ballTwo.getDirectionballx()%2 == 0){
+			ballTwo.setBallx(ballTwo.getBallx() - ballTwo.getBallSpeedX());
+		}else{
+			ballTwo.setBallx(ballTwo.getBallx() + ballTwo.getBallSpeedX());
+		}
+		if(ballTwo.getDirectionbally()%2 == 0){
+			ballTwo.setBally(ballTwo.getBally() - ballTwo.getBallSpeedY());
+		}else{
+			ballTwo.setBally(ballTwo.getBally() + ballTwo.getBallSpeedY());
+		}
+		
+		if (collisionDetection.ballOnBallHit(ballOne, ballTwo)){
+			
+		}
+		
 		repaint();
 	}
 	
@@ -44,6 +111,9 @@ public class Menu extends JPanel implements KeyListener {
 	    g.drawString(newSinglePlayerGame, 140, 340);
 	    g.drawString(newTwoPlayerGame, 140, 400);
 	    g.drawString(exitApp, 140, 460);
+	    
+	    g.fillOval((int)ballOne.getBallx(), (int)ballOne.getBally(), 50, 50);
+	    g.fillOval((int)ballTwo.getBallx(), (int)ballTwo.getBally(), 50, 50);
 	}
 	
 	@Override
@@ -67,6 +137,10 @@ public class Menu extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent ke) {
 		// TODO Auto-generated method stub
+	}
+	
+	public void actionPerformed(ActionEvent arg0) {
+		step();
 	}
 
 	public boolean isSinglePlayerGameRunning() {
