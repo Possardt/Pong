@@ -84,7 +84,10 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		}
 		
 		if (collisionDetection.ballOnBallHit(ballOne, ballTwo)){
-			
+			ballOne.setDirectionballx(ballOne.getDirectionballx() + 1);
+			ballOne.setDirectionbally(ballOne.getDirectionbally() + 1);
+			ballTwo.setDirectionballx(ballTwo.getDirectionballx() + 1);
+			ballTwo.setDirectionbally(ballTwo.getDirectionbally() + 1);
 		}
 		
 		repaint();

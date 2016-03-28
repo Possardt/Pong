@@ -120,7 +120,7 @@ public class CollisionDetection {
 	
 	private boolean bottomWallHit(Ball ball){
 		boolean bottomWallHit = false;
-		if (ball.getBallCenterY() >= 775){
+		if (ball.getBallCenterY() >= 815){
 			bottomWallHit = true;
 		}
 		return bottomWallHit;
@@ -137,7 +137,6 @@ public class CollisionDetection {
 	public boolean ballOnBallHit(Ball ballOne, Ball ballTwo){
 		boolean ballOnBallHit = false;
 		float distance = (float)Math.pow((float)Math.pow(ballOne.getBallCenterX()-ballTwo.getBallCenterX(),2) + (float)Math.pow(ballOne.getBallCenterY()-ballTwo.getBallCenterY(),2),.5);
-		System.out.println(distance);
 		if (distance <= 50){
 			ballOnBallHit = true;
 		}
