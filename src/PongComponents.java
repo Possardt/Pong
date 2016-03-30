@@ -18,6 +18,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private Paddle player1 = new Paddle(0,100);
 	private Paddle player2 = new Paddle(1737,100);
 	CollisionDetection collisionDetection = new CollisionDetection();
+	private Sound ballSound = new Sound();
+	
 	//constructor
 	public PongComponents(){
 		setBackground(Color.BLACK);
@@ -186,8 +188,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		ball.setDirectionbally(getRandomDirection());
 		ball.setBallx(884);
 		ball.setBally(350);
-		ball.setBallSpeedX(getRandomSpeed());
-		ball.setBallSpeedY(getRandomSpeed());
+		ball.setBallSpeedX(3);
+		ball.setBallSpeedY(3);
 	}
 	
 	public int getRandomDirection(){

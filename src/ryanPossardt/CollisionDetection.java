@@ -2,7 +2,7 @@
 package ryanPossardt;
 
 public class CollisionDetection {
-	
+	private Sound ballSound = new Sound();
 	public float calculateYBallSpeed(float delta){
 		float temp = Math.abs(delta - 70)/10;
 		return temp;
@@ -40,7 +40,7 @@ public class CollisionDetection {
 		//if ball hits paddle
 		if(paddle.getPaddleX() < 100){
 			double angle = calculateAngleBetweenPoints(ball,paddle);		
-			System.out.println("Angle between ball/paddle: " + angle);
+			//System.out.println("Angle between ball/paddle: " + angle);
 			if((paddle.getPaddleX() - ball.getBallx() > -40) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				ball.setLastPaddleHit(paddle);
 				if (topHit(ball, paddle)){
@@ -61,10 +61,12 @@ public class CollisionDetection {
 					}
 				}
 				ball.setLastPaddleHit(paddle);
+				ballSound.playSound();
 			}
 		}else{		//
 			if((paddle.getPaddleX() - ball.getBallx() < 50) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				ball.setLastPaddleHit(paddle);
+				ballSound.playSound();
 				if (topHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
 					ball.setBallSpeedY(calculateYBallSpeed(delta));
