@@ -2,7 +2,7 @@
 package ryanPossardt;
 
 public class CollisionDetection {
-	//private Sound ballSound = new Sound();
+	private Sound ballSound = new Sound();
 	public float calculateYBallSpeed(float delta){
 		float temp = Math.abs(delta - 70)/10;
 		return temp;
@@ -68,12 +68,12 @@ public class CollisionDetection {
 					}
 				}
 				ball.setLastPaddleHit(paddle);
-				//ballSound.playSound();
+				ballSound.leftPaddleHitSound();;
 			}
 		}else{		//
 			if((paddle.getPaddleX() - ball.getBallx() < 50) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				ball.setLastPaddleHit(paddle);
-				//ballSound.playSound();
+				ballSound.rightPaddleHitSound();
 				if (topHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
 					ball.setBallSpeedY(calculateYBallSpeed(delta));

@@ -1,15 +1,23 @@
 package ryanPossardt;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URL;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 public class Sound {
-	public void playSound(){
+	public void leftPaddleHitSound(){
 		try{
-			InputStream inputStream = getClass().getResourceAsStream("ballBounce.wav");
+			InputStream inputStream = getClass().getResourceAsStream("leftPaddleHit.wav");
+			AudioStream audioStream = new AudioStream(inputStream);
+			AudioPlayer.player.start(audioStream);
+		}catch(Exception e){
+			System.out.println("Sound not played");
+			e.printStackTrace();
+		}
+	}
+	public void rightPaddleHitSound(){
+		try{
+			InputStream inputStream = getClass().getResourceAsStream("rightPaddleHit.wav");
 			AudioStream audioStream = new AudioStream(inputStream);
 			AudioPlayer.player.start(audioStream);
 		}catch(Exception e){
