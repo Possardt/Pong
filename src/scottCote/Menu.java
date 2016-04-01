@@ -85,7 +85,11 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		
 		if (collisionDetection.ballOnBallHit(ballOne, ballTwo)){
 			double angle = collisionDetection.calculateAngleBetweenBalls(ballOne, ballTwo);
-			System.out.println(angle);
+			System.out.println("Collision angle was:" + angle);
+			double ballOneAngle = ballOne.getTravelAngle();
+			System.out.println("BallOne travel angle was:" + ballOneAngle);
+			double ballTwoAngle = ballTwo.getTravelAngle();
+			System.out.println("BallTwo travel angle was:" + ballTwoAngle);
 			ballOne.setDirectionballx(ballOne.getDirectionballx() + 1);
 			ballOne.setDirectionbally(ballOne.getDirectionbally() + 1);
 			ballTwo.setDirectionballx(ballTwo.getDirectionballx() + 1);
