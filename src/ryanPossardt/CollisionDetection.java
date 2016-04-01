@@ -2,16 +2,23 @@
 package ryanPossardt;
 
 public class CollisionDetection {
-	private Sound ballSound = new Sound();
+	//private Sound ballSound = new Sound();
 	public float calculateYBallSpeed(float delta){
 		float temp = Math.abs(delta - 70)/10;
 		return temp;
 	}
-	//to get angle between ball/paddle to eventually make colision between ball and corner of paddle
+	//to get angle between ball/paddle to eventually make collision between ball and corner of paddle
 	public double calculateAngleBetweenPoints(Ball b, Paddle p){
 		double xDiff = b.getBallCenterX() - (p.getPaddleX() + 40);
 		double yDiff = b.getBallCenterY() - p.getPaddleY();
 		return Math.toDegrees(Math.atan2(xDiff , yDiff));
+	}
+	
+	public double calculateAngleBetweenBalls(Ball ballOne, Ball ballTwo){
+		double xDiff = Math.abs(ballOne.getBallCenterX() - ballTwo.getBallCenterX());
+		double yDiff = Math.abs(ballOne.getBallCenterY() - ballTwo.getBallCenterY());
+		double angle = Math.toDegrees(Math.atan2(xDiff, yDiff));
+		return angle;
 	}
 	
 	private boolean topHit(Ball ball, Paddle paddle){
@@ -61,12 +68,12 @@ public class CollisionDetection {
 					}
 				}
 				ball.setLastPaddleHit(paddle);
-				ballSound.playSound();
+				//ballSound.playSound();
 			}
 		}else{		//
 			if((paddle.getPaddleX() - ball.getBallx() < 50) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				ball.setLastPaddleHit(paddle);
-				ballSound.playSound();
+				//ballSound.playSound();
 				if (topHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
 					ball.setBallSpeedY(calculateYBallSpeed(delta));

@@ -18,7 +18,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private Paddle player1 = new Paddle(0,100);
 	private Paddle player2 = new Paddle(1737,100);
 	CollisionDetection collisionDetection = new CollisionDetection();
-	private Sound ballSound = new Sound();
+	//private Sound ballSound = new Sound();
 	
 	//constructor
 	public PongComponents(){
