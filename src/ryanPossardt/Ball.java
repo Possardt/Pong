@@ -7,6 +7,7 @@ public class Ball {
 	private float ballSpeedX = 3;
 	private float ballSpeedY = 3;
 	private Paddle lastPaddleHit;
+	private double travelAngle;
 	//lastPaddleHit is to be used for powerups, when we need to determine which paddle
 	//	to apply the powerup to.
 	
@@ -75,6 +76,11 @@ public class Ball {
 	}
 	public float getBallCenterY(){
 		return (getBally() + 25);
+	}
+	
+	public double getTravelAngle(){
+		double angle = Math.toDegrees(Math.atan2(ballSpeedY , ballSpeedX));
+		return angle;
 	}
 	
 }
