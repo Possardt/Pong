@@ -18,7 +18,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private Paddle player1 = new Paddle(0,100);
 	private Paddle player2 = new Paddle(1737,100);
 	CollisionDetection collisionDetection = new CollisionDetection();
-	
+	Sound sounds = new Sound();
 	//constructor
 	public PongComponents(){
 		setBackground(Color.BLACK);
@@ -176,6 +176,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	
 	//reset ball after score
 	public void resetBall(){
+		sounds.playScoreSound();
 		//hold ball in center before game starts
 		try {
 			Thread.sleep(2000);

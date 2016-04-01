@@ -25,7 +25,16 @@ public class Sound {
 			e.printStackTrace();
 		}
 	}
-	
+	public void playScoreSound(){
+		try{
+			InputStream inputStream = getClass().getResourceAsStream("scoreSound.wav");
+			AudioStream audioStream = new AudioStream(inputStream);
+			AudioPlayer.player.start(audioStream);
+		}catch(Exception e){
+			System.out.println("Sound not played");
+			e.printStackTrace();
+		}
+	}
 	
 	
 }
