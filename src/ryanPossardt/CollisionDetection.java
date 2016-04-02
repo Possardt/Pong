@@ -149,13 +149,18 @@ public class CollisionDetection {
 	public boolean ballOnBallHit(Ball ballOne, Ball ballTwo){
 		boolean ballOnBallHit = false;
 		float distance = (float)Math.pow((float)Math.pow(ballOne.getBallCenterX()-ballTwo.getBallCenterX(),2) + (float)Math.pow(ballOne.getBallCenterY()-ballTwo.getBallCenterY(),2),.5);
-		if (distance <= 60){
+		if (distance <= 50){
 			ballOnBallHit = true;
 			ballsCleared = false;
-		}else{
-			ballsCleared = true;
 		}
 		return ballOnBallHit;
+	}
+	
+	public void setBallsClear(Ball ballOne, Ball ballTwo){
+		float distance = (float)Math.pow((float)Math.pow(ballOne.getBallCenterX()-ballTwo.getBallCenterX(),2) + (float)Math.pow(ballOne.getBallCenterY()-ballTwo.getBallCenterY(),2),.5);
+		if (distance > 50){
+			ballsCleared = true;
+		}
 	}
 	
 	public boolean getBallsClear(){

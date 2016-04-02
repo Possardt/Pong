@@ -68,12 +68,14 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		ballTwo.setBally(ballTwo.getBally() + ballTwo.getBallSpeedY());
 
 		//if ball on ball collision occurs after move
-		ballsCleared = collisionDetection.getBallsClear();
-		if (ballsCleared && collisionDetection.ballOnBallHit(ballOne, ballTwo)){
+		collisionDetection.setBallsClear(ballOne, ballTwo);
+		if (collisionDetection.getBallsClear() && collisionDetection.ballOnBallHit(ballOne, ballTwo)){
 			System.out.println("in a collision event!!!!!");
 			phi = collisionDetection.calculateAngleBetweenBalls(ballOne, ballTwo);
 			thetaOne = ballOne.getTravelAngle();
+			System.out.println("ThetaOne: " + thetaOne);
 			thetaTwo = ballTwo.getTravelAngle();
+			System.out.println("ThetaTwo: " + thetaTwo);
 			vOne = ballOne.getSpeedMagnitude();
 			vTwo = ballTwo.getSpeedMagnitude();
 			vPrimeXOne = vTwo*Math.cos(thetaTwo - phi)*Math.cos(phi) + vOne*Math.sin(thetaOne - phi)*Math.cos(phi + Math.PI/2);
@@ -160,8 +162,9 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	    g.drawString(newSinglePlayerGame, 140, 340);
 	    g.drawString(newTwoPlayerGame, 140, 400);
 	    g.drawString(exitApp, 140, 460);
-	    
+	    g.setColor(Color.RED);
 	    g.fillOval((int)ballOne.getBallx(), (int)ballOne.getBally(), 50, 50);
+	    g.setColor(Color.BLUE);
 	    g.fillOval((int)ballTwo.getBallx(), (int)ballTwo.getBally(), 50, 50);
 	}
 	
