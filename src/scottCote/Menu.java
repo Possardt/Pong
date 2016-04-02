@@ -20,6 +20,17 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	private volatile boolean isTwoPlayerGameRunning;
 	private Ball ballOne = new Ball();
 	private Ball ballTwo = new Ball();
+	double phi;
+	double thetaOne;
+	double thetaTwo;
+	double vOne;
+	double vTwo;
+	double vPrimeXOne;
+	double vPrimeYOne;
+	double vPrimeXTwo;
+	double vPrimeYTwo;
+	boolean ballsCleared;
+	boolean ballCollision;
 	CollisionDetection collisionDetection = new CollisionDetection();
 
 	
@@ -36,64 +47,92 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
 		
-		ballOne.setBallx(400);
-		ballOne.setBally(500);
+		ballOne.setBallx(300);
+		ballOne.setBally(300);
 		ballOne.setBallSpeedX(6);
-		ballOne.setBallSpeedY(6);
+		ballOne.setBallSpeedY(8);
 		
-		ballTwo.setBallx(700);
-		ballTwo.setBally(300);
+		ballTwo.setBallx(730);
+		ballTwo.setBally(730);
 		ballTwo.setBallSpeedX(-6);
-		ballTwo.setBallSpeedY(-6);
+		ballTwo.setBallSpeedY(-8);
 	}
 	
 	public void step(){
 		
-		if(collisionDetection.verticalWallHit(ballOne)){
-			ballOne.setDirectionballx(ballOne.getDirectionballx() + 1);
-		}
-		if(collisionDetection.horizontalWallHit(ballOne)){
-			ballOne.setDirectionbally(ballOne.getDirectionbally() + 1);
-		}
-		if(ballOne.getDirectionballx()%2 == 0){
-			ballOne.setBallx(ballOne.getBallx() - ballOne.getBallSpeedX());
-		}else{
-			ballOne.setBallx(ballOne.getBallx() + ballOne.getBallSpeedX());
-		}
-		if(ballOne.getDirectionbally()%2 == 0){
-			ballOne.setBally(ballOne.getBally() - ballOne.getBallSpeedY());
-		}else{
-			ballOne.setBally(ballOne.getBally() + ballOne.getBallSpeedY());
-		}
-		
-		if(collisionDetection.verticalWallHit(ballTwo)){
-			ballTwo.setDirectionballx(ballTwo.getDirectionballx() + 1);
-		}
-		if(collisionDetection.horizontalWallHit(ballTwo)){
-			ballTwo.setDirectionbally(ballTwo.getDirectionbally() + 1);
-		}
-		if(ballTwo.getDirectionballx()%2 == 0){
-			ballTwo.setBallx(ballTwo.getBallx() - ballTwo.getBallSpeedX());
-		}else{
-			ballTwo.setBallx(ballTwo.getBallx() + ballTwo.getBallSpeedX());
-		}
-		if(ballTwo.getDirectionbally()%2 == 0){
-			ballTwo.setBally(ballTwo.getBally() - ballTwo.getBallSpeedY());
-		}else{
-			ballTwo.setBally(ballTwo.getBally() + ballTwo.getBallSpeedY());
-		}
-		
-		if (collisionDetection.ballOnBallHit(ballOne, ballTwo)){
-			double angle = collisionDetection.calculateAngleBetweenBalls(ballOne, ballTwo);
-			System.out.println("Collision angle was:" + angle);
-			double ballOneAngle = ballOne.getTravelAngle();
-			System.out.println("BallOne travel angle was:" + ballOneAngle);
-			double ballTwoAngle = ballTwo.getTravelAngle();
-			System.out.println("BallTwo travel angle was:" + ballTwoAngle);
-			ballOne.setDirectionballx(ballOne.getDirectionballx() + 1);
-			ballOne.setDirectionbally(ballOne.getDirectionbally() + 1);
-			ballTwo.setDirectionballx(ballTwo.getDirectionballx() + 1);
-			ballTwo.setDirectionbally(ballTwo.getDirectionbally() + 1);
+		//move ball one
+		ballOne.setBallx(ballOne.getBallx() + ballOne.getBallSpeedX());
+		ballOne.setBally(ballOne.getBally() + ballOne.getBallSpeedY());
+		//move ball two
+		ballTwo.setBallx(ballTwo.getBallx() + ballTwo.getBallSpeedX());
+		ballTwo.setBally(ballTwo.getBally() + ballTwo.getBallSpeedY());
+
+		//if ball on ball collision occurs after move
+		ballsCleared = collisionDetection.getBallsClear();
+		if (ballsCleared && collisionDetection.ballOnBallHit(ballOne, ballTwo)){
+			System.out.println("in a collision event!!!!!");
+			phi = collisionDetection.calculateAngleBetweenBalls(ballOne, ballTwo);
+			thetaOne = ballOne.getTravelAngle();
+			thetaTwo = ballTwo.getTravelAngle();
+			vOne = ballOne.getSpeedMagnitude();
+			vTwo = ballTwo.getSpeedMagnitude();
+			vPrimeXOne = vTwo*Math.cos(thetaTwo - phi)*Math.cos(phi) + vOne*Math.sin(thetaOne - phi)*Math.cos(phi + Math.PI/2);
+			vPrimeYOne = vTwo*Math.sin(thetaTwo - phi)*Math.cos(phi) + vOne*Math.sin(thetaOne - phi)*Math.sin(phi + Math.PI/2);
+			vPrimeXTwo = vOne*Math.cos(thetaOne - phi)*Math.cos(phi) + vTwo*Math.sin(thetaTwo - phi)*Math.cos(phi + Math.PI/2);
+			vPrimeYTwo = vOne*Math.sin(thetaOne - phi)*Math.cos(phi) + vTwo*Math.sin(thetaTwo - phi)*Math.sin(phi + Math.PI/2);
+			
+			System.out.println("ball one speed: " + vOne);
+			System.out.println("ball two speed: " + vTwo);
+			
+			System.out.println("b1x: " + ballOne.getBallSpeedX());
+			System.out.println("b1xP: " + vPrimeXOne);
+			if (ballOne.getBallSpeedX() * vPrimeXOne <= 0){
+				System.out.println("Ball One Direction X Change");
+				ballOne.setBallSpeedX((float) (vPrimeXOne * -1));
+			}
+			ballOne.setBallSpeedX((float) vPrimeXOne);
+			
+			System.out.println("b1y: " + ballOne.getBallSpeedY());
+			System.out.println("b1yP: " + vPrimeYOne);
+			if (ballOne.getBallSpeedY() * vPrimeYOne < 0){
+				System.out.println("Ball One Direction Y Change");
+				ballOne.setBallSpeedY((float) (vPrimeYOne * -1));
+			}
+			ballOne.setBallSpeedX((float) vPrimeYOne);
+			
+			System.out.println("b2x: " + ballTwo.getBallSpeedX());
+			System.out.println("b2xP: " + vPrimeXTwo);
+			if (ballTwo.getBallSpeedX() * vPrimeXTwo <= 0){
+				System.out.println("Ball Two Direction X Change");
+				ballTwo.setBallSpeedX((float) (vPrimeXTwo * -1));
+			}
+			ballOne.setBallSpeedY((float) vPrimeXTwo);
+			
+			System.out.println("b2y: " + ballTwo.getBallSpeedY());
+			System.out.println("b2yP: " + vPrimeYTwo);
+			if (ballTwo.getBallSpeedY() * vPrimeYTwo <= 0){
+				System.out.println("Ball Two Direction Y Change");
+				ballTwo.setBallSpeedY((float) (vPrimeYTwo * -1));
+			}
+			ballOne.setBallSpeedY((float) vPrimeYTwo);	
+			
+			System.out.println(ballOne.getSpeedMagnitude());
+			System.out.println(ballTwo.getSpeedMagnitude());
+			
+		}else{	//if ball on wall collision occurs
+			if(collisionDetection.verticalWallHit(ballOne)){
+				ballOne.setBallSpeedX(ballOne.getBallSpeedX()*-1);
+			}
+			if(collisionDetection.horizontalWallHit(ballOne)){
+				ballOne.setBallSpeedY(ballOne.getBallSpeedY()*-1);
+			}
+
+			if(collisionDetection.verticalWallHit(ballTwo)){
+				ballTwo.setBallSpeedX(ballTwo.getBallSpeedX()*-1);
+			}
+			if(collisionDetection.horizontalWallHit(ballTwo)){
+				ballTwo.setBallSpeedY(ballTwo.getBallSpeedY()*-1);
+			}
 		}
 		
 		repaint();

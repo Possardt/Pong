@@ -2,6 +2,9 @@
 package ryanPossardt;
 
 public class CollisionDetection {
+	
+	private boolean ballsCleared = true;
+	
 	private Sound sounds = new Sound();
 	public float calculateYBallSpeed(float delta){
 		float temp = Math.abs(delta - 70)/10;
@@ -146,12 +149,17 @@ public class CollisionDetection {
 	public boolean ballOnBallHit(Ball ballOne, Ball ballTwo){
 		boolean ballOnBallHit = false;
 		float distance = (float)Math.pow((float)Math.pow(ballOne.getBallCenterX()-ballTwo.getBallCenterX(),2) + (float)Math.pow(ballOne.getBallCenterY()-ballTwo.getBallCenterY(),2),.5);
-		if (distance <= 50){
+		if (distance <= 60){
 			ballOnBallHit = true;
+			ballsCleared = false;
+		}else{
+			ballsCleared = true;
 		}
 		return ballOnBallHit;
 	}
 	
-
+	public boolean getBallsClear(){
+		return ballsCleared;
+	}
 	
 }
