@@ -8,6 +8,7 @@ public class Ball {
 	private float ballSpeedX = 5;
 	private float ballSpeedY = 3;
 	private Paddle lastPaddleHit;
+	private int diameter = 50;
 	//lastPaddleHit is to be used for powerups, when we need to determine which paddle
 	//	to apply the powerup to.
 	
@@ -72,10 +73,10 @@ public class Ball {
 		this.directionbally = directionbally;
 	}
 	public float getBallCenterX(){
-		return (getBallx() + 25);
+		return (getBallx() + diameter/2);
 	}
 	public float getBallCenterY(){
-		return (getBally() + 25);
+		return (getBally() + diameter/2);
 	}
 	
 	public int getBallSize(){
@@ -94,6 +95,14 @@ public class Ball {
 	public double getSpeedMagnitude(){
 		double speed = Math.pow(Math.pow(ballSpeedY, 2)+Math.pow(ballSpeedX, 2), .5);
 		return speed;
+	}
+
+	public int getDiameter() {
+		return diameter;
+	}
+
+	public void setDiameter(int diameter) {
+		this.diameter = diameter;
 	}
 	
 }

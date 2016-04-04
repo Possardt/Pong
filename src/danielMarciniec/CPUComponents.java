@@ -140,47 +140,73 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 
 	}
 
-	@Override
-	public void keyPressed(KeyEvent k) {
-		//player one paddle movement
-		if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
-			upPressedPlayerOne = true;
+	//player paddle movement
+		@Override
+		public void keyPressed(KeyEvent k) {
+			if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
+				upPressedPlayerOne = true;
+			}
+			if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
+				downPressedPlayerOne = true;
+			}
 		}
-		if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
-			downPressedPlayerOne = true;
+		
+		@Override
+		public void keyReleased(KeyEvent k) {
+			if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
+				upPressedPlayerOne = false;
+			}
+			if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
+				downPressedPlayerOne = false;
+			}
 		}
-	}
-	
-	//CPU paddle movement
+		
+		//CPU paddle movement
 		public void startMove() {
-			float delta = ball.getBally() - player2.getPaddleY() + 25;
-			if(delta <= 5 && player2.getPaddleY() > 0){
-				upPressedPlayerTwo = true;
+			float delta = (ball.getBally() - player2.getPaddleY()) - 50;
+			double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta);
+			if(delta < 0) {speed = speed * -1;}
+			if(ball.getDirectionbally()%2 == 0) {	//ball moving up
+				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+					if(speed < -125 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
+					if(speed > 175 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
+				}else{	//ball moving right
+					if(speed < 0 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
+					if(speed >= 100 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
+				}
+			}else{	//ball moving down
+				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+					if(speed < -175 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
+					if(speed > 125 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
+				}else{	//ball moving right
+					if(speed <= -100 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
+					if(speed > 0 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
+				}
 			}
-			if(delta >= 135 && player2.getPaddleY() < 760){
-				downPressedPlayerTwo = true;
-			}
 		}
-
-	@Override
-	public void keyReleased(KeyEvent k) {
-		//player one paddle movement
-		if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
-			upPressedPlayerOne = false;
-		}
-		if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
-			downPressedPlayerOne = false;
-		}
-	}
-	
-	//CPU paddle movement
+		
 		public void endMove() {
-			float delta = ball.getBally() - player2.getPaddleY() + 25;
-			if(delta >= 75 || player2.getPaddleY() <= 0){
-				upPressedPlayerTwo = false;
-			}
-			if(delta <= 65 || player2.getPaddleY() >= 760){
-				downPressedPlayerTwo = false;
+			if(player2.getPaddleY() <= 0) {upPressedPlayerTwo = false;}	//paddle at top
+			if(player2.getPaddleY() >= 700){downPressedPlayerTwo = false;}	//paddle at bottom
+			float delta = (ball.getBally() - player2.getPaddleY()) - 50;
+			double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta);
+			if(delta < 0) {speed = speed * -1;}
+			if(ball.getDirectionbally()%2 == 0){	//ball moving up
+				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+					if(speed > 100) {upPressedPlayerTwo = false;}
+					if(speed < 150) {downPressedPlayerTwo = false;}
+				}else{	//ball moving right
+					if(speed > 85) {upPressedPlayerTwo = false;}
+					if(speed < 100) {downPressedPlayerTwo = false;}
+				}
+			}else{	//ball moving down
+				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+					if(speed > -150) {upPressedPlayerTwo = false;}
+					if(speed < -100) {downPressedPlayerTwo = false;}
+				}else{	//ball moving right
+					if(speed > -100) {upPressedPlayerTwo = false;}
+					if(speed < -85) {downPressedPlayerTwo = false;}
+				}
 			}
 		}
 	

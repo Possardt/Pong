@@ -2,7 +2,10 @@
 package ryanPossardt;
 
 public class CollisionDetection {
+	
+	private String lastHit = null;
 	private Sound sounds = new Sound();
+	
 	public float calculateYBallSpeed(float delta){
 		float temp = Math.abs(delta - 70)/10;
 		return temp;
@@ -11,16 +14,9 @@ public class CollisionDetection {
 	public double calculateAngleBetweenPoints(Ball b, Paddle p){
 		double xDiff = b.getBallCenterX() - (p.getPaddleX() + 40);
 		double yDiff = b.getBallCenterY() - p.getPaddleY();
-		return Math.toDegrees(Math.atan2(xDiff , yDiff));
+		return Math.atan2(xDiff , yDiff);
 	}
-	
-	public double calculateAngleBetweenBalls(Ball ballOne, Ball ballTwo){
-		double xDiff = Math.abs(ballOne.getBallCenterX() - ballTwo.getBallCenterX());
-		double yDiff = Math.abs(ballOne.getBallCenterY() - ballTwo.getBallCenterY());
-		double angle = Math.toDegrees(Math.atan2(xDiff, yDiff));
-		return angle;
-	}
-	
+		
 	private boolean topHit(Ball ball, Paddle paddle){
 		boolean topHit = true;
 		float delta = ball.getBally() - paddle.getPaddleY();
@@ -95,63 +91,55 @@ public class CollisionDetection {
 		}
 	}
 	
-	private boolean leftWallHit(Ball ball){
+	private boolean leftWallHit(Ball ball, int ballSize){
 		boolean leftWallHit = false;
-		if (ball.getBallCenterX() <= 25){
+		if (ball.getBallCenterX() < ball.getDiameter()/2 && lastHit != "left"){
 			leftWallHit = true;
+			lastHit = "left";
 		}
 		return leftWallHit;
 	}
 	
-	private boolean rightWallHit(Ball ball){
+	private boolean rightWallHit(Ball ball, int ballSize){
 		boolean rightWallHit = false;
-		if (ball.getBallCenterX() >= 1750){
+		if (ball.getBallCenterX() >= 1776 - ball.getDiameter()/2 && lastHit != "right"){
 			rightWallHit = true;
+			lastHit = "right";
 		}
 		return rightWallHit;
 	}
-	
-	public boolean verticalWallHit(Ball ball){
-		boolean verticalWallHit = false;
-		if (leftWallHit(ball) || rightWallHit(ball)){
-			verticalWallHit = true;
-		}
-		return verticalWallHit;
-	}
-	
-	private boolean topWallHit(Ball ball){
+		
+	private boolean topWallHit(Ball ball, int ballSize){
 		boolean topWallHit = false;
-		if (ball.getBallCenterY() <= 25){
+		if (ball.getBallCenterY() <= ball.getDiameter()/2 && lastHit != "top"){
 			topWallHit = true;
+			lastHit = "top";
 		}
 		return topWallHit;
 	}
 	
-	private boolean bottomWallHit(Ball ball){
+	private boolean bottomWallHit(Ball ball, int ballSize){
 		boolean bottomWallHit = false;
-		if (ball.getBallCenterY() >= 815){
+		if (ball.getBallCenterY() >= 840 - ball.getDiameter()/2 && lastHit != "bottom"){
 			bottomWallHit = true;
+			lastHit ="bottom";
 		}
 		return bottomWallHit;
 	}
 	
-	public boolean horizontalWallHit(Ball ball){
+	public boolean horizontalWallHit(Ball ball, int ballSize){
 		boolean horizontalWallHit = false;
-		if (topWallHit(ball) || bottomWallHit(ball)){
+		if (topWallHit(ball, ballSize) || bottomWallHit(ball, ballSize)){
 			horizontalWallHit = true;
 		}
 		return horizontalWallHit;
-	}
+	}	
 	
-	public boolean ballOnBallHit(Ball ballOne, Ball ballTwo){
-		boolean ballOnBallHit = false;
-		float distance = (float)Math.pow((float)Math.pow(ballOne.getBallCenterX()-ballTwo.getBallCenterX(),2) + (float)Math.pow(ballOne.getBallCenterY()-ballTwo.getBallCenterY(),2),.5);
-		if (distance <= 50){
-			ballOnBallHit = true;
+	public boolean verticalWallHit(Ball ball, int ballSize){
+		boolean verticalWallHit = false;
+		if (leftWallHit(ball, ballSize) || rightWallHit(ball, ballSize)){
+			verticalWallHit = true;
 		}
-		return ballOnBallHit;
+		return verticalWallHit;
 	}
-	
-
-	
 }

@@ -19,7 +19,7 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	private volatile boolean isSinglePlayerGameRunning;
 	private volatile boolean isTwoPlayerGameRunning;
 	private Ball ballOne = new Ball();
-	private Ball ballTwo = new Ball();
+	private int ballSize = 50;
 	CollisionDetection collisionDetection = new CollisionDetection();
 
 	
@@ -36,64 +36,30 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
 		
-		ballOne.setBallx(400);
-		ballOne.setBally(500);
-		ballOne.setBallSpeedX(6);
-		ballOne.setBallSpeedY(6);
+		ballOne.setBallx(700);
+		ballOne.setBally(700);
+		ballOne.setBallSpeedX(-14);
+		ballOne.setBallSpeedY(10);
 		
-		ballTwo.setBallx(700);
-		ballTwo.setBally(300);
-		ballTwo.setBallSpeedX(-6);
-		ballTwo.setBallSpeedY(-6);
 	}
 	
 	public void step(){
 		
-		if(collisionDetection.verticalWallHit(ballOne)){
-			ballOne.setDirectionballx(ballOne.getDirectionballx() + 1);
-		}
-		if(collisionDetection.horizontalWallHit(ballOne)){
-			ballOne.setDirectionbally(ballOne.getDirectionbally() + 1);
-		}
-		if(ballOne.getDirectionballx()%2 == 0){
-			ballOne.setBallx(ballOne.getBallx() - ballOne.getBallSpeedX());
-		}else{
-			ballOne.setBallx(ballOne.getBallx() + ballOne.getBallSpeedX());
-		}
-		if(ballOne.getDirectionbally()%2 == 0){
-			ballOne.setBally(ballOne.getBally() - ballOne.getBallSpeedY());
-		}else{
-			ballOne.setBally(ballOne.getBally() + ballOne.getBallSpeedY());
-		}
-		
-		if(collisionDetection.verticalWallHit(ballTwo)){
-			ballTwo.setDirectionballx(ballTwo.getDirectionballx() + 1);
-		}
-		if(collisionDetection.horizontalWallHit(ballTwo)){
-			ballTwo.setDirectionbally(ballTwo.getDirectionbally() + 1);
-		}
-		if(ballTwo.getDirectionballx()%2 == 0){
-			ballTwo.setBallx(ballTwo.getBallx() - ballTwo.getBallSpeedX());
-		}else{
-			ballTwo.setBallx(ballTwo.getBallx() + ballTwo.getBallSpeedX());
-		}
-		if(ballTwo.getDirectionbally()%2 == 0){
-			ballTwo.setBally(ballTwo.getBally() - ballTwo.getBallSpeedY());
-		}else{
-			ballTwo.setBally(ballTwo.getBally() + ballTwo.getBallSpeedY());
-		}
-		
-		if (collisionDetection.ballOnBallHit(ballOne, ballTwo)){
-			double angle = collisionDetection.calculateAngleBetweenBalls(ballOne, ballTwo);
-			System.out.println("Collision angle was:" + angle);
-			double ballOneAngle = ballOne.getTravelAngle();
-			System.out.println("BallOne travel angle was:" + ballOneAngle);
-			double ballTwoAngle = ballTwo.getTravelAngle();
-			System.out.println("BallTwo travel angle was:" + ballTwoAngle);
-			ballOne.setDirectionballx(ballOne.getDirectionballx() + 1);
-			ballOne.setDirectionbally(ballOne.getDirectionbally() + 1);
-			ballTwo.setDirectionballx(ballTwo.getDirectionballx() + 1);
-			ballTwo.setDirectionbally(ballTwo.getDirectionbally() + 1);
+		//move ball one
+		ballOne.setBallx(ballOne.getBallx() + ballOne.getBallSpeedX());
+		ballOne.setBally(ballOne.getBally() + ballOne.getBallSpeedY());
+
+		if (ballSize <500 ) {
+			if(collisionDetection.verticalWallHit(ballOne, ballSize)){
+				ballOne.setBallSpeedX(ballOne.getBallSpeedX()*-1);
+				ballSize += 10;
+				ballOne.setDiameter(ballSize);
+			}
+			if(collisionDetection.horizontalWallHit(ballOne, ballSize)){
+				ballOne.setBallSpeedY(ballOne.getBallSpeedY()*-1);
+				ballSize +=10;
+				ballOne.setDiameter(ballSize);
+			}
 		}
 		
 		repaint();
@@ -102,7 +68,6 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void paint(Graphics g){
 		super.paintComponent(g);
-		g.setColor(Color.WHITE);
 		Font titleFont = new Font("Bauhaus 93", Font.BOLD, 150);
 		Font byFont = new Font("Bauhaus 93", Font.PLAIN, 40);
 		Font controlFont = new Font("Bauhaus 93", Font.BOLD, 50);
@@ -113,6 +78,9 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	    String newSinglePlayerGame = "(N) New Two Player Game";
 	    String newTwoPlayerGame = "(S) New Single Player Game";
 	    String exitApp = "(X) Exit Game";
+	    g.setColor(Color.RED);
+	    g.fillOval((int)ballOne.getBallx(), (int)ballOne.getBally(), ballSize ,ballSize);
+	    g.setColor(Color.WHITE);
 	    g.drawString(title, 140, 140);
 	    g.setFont(byFont);
 	    g.drawString(byOne, 140, 215);
@@ -121,9 +89,7 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	    g.drawString(newSinglePlayerGame, 140, 340);
 	    g.drawString(newTwoPlayerGame, 140, 400);
 	    g.drawString(exitApp, 140, 460);
-	    
-	    g.fillOval((int)ballOne.getBallx(), (int)ballOne.getBally(), 50, 50);
-	    g.fillOval((int)ballTwo.getBallx(), (int)ballTwo.getBally(), 50, 50);
+
 	}
 	
 	
@@ -151,7 +117,8 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		step();
+		if (ballSize <500)
+			step();
 	}
 
 	public boolean isSinglePlayerGameRunning() {
