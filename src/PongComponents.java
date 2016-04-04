@@ -19,6 +19,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private Paddle player2 = new Paddle(1737,100);
 	CollisionDetection collisionDetection = new CollisionDetection();
 	Sound sounds = new Sound();
+	PowerUp powerUp = new PowerUp();
+	
 	//constructor
 	public PongComponents(){
 		setBackground(Color.BLACK);
@@ -103,7 +105,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		g.setColor(Color.WHITE);
 		Font font = new Font("Bauhaus 93", Font.PLAIN, 60);
 		g.setFont(font);
-	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), 50, 50);
+	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), ball.getBallSize(), ball.getBallSize());
 
 	    
 	    //lines down center of court
@@ -133,7 +135,12 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    //player two paddle
 	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
 	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
-
+	    
+	    //powerup generator
+	    if(powerUp.isEnabled()){
+	    	//g.drawRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
+	    	//g.fillRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
+	    }
 	}
 
 	@Override

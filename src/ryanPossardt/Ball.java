@@ -1,10 +1,11 @@
 package ryanPossardt;
 
 public class Ball {
+	private int ballSize = 50;
 	private float ballx = 900;
 	private float bally = 400;
 	private int directionballx, directionbally = 0;
-	private float ballSpeedX = 3;
+	private float ballSpeedX = 5;
 	private float ballSpeedY = 3;
 	private Paddle lastPaddleHit;
 	//lastPaddleHit is to be used for powerups, when we need to determine which paddle
@@ -75,6 +76,14 @@ public class Ball {
 	}
 	public float getBallCenterY(){
 		return (getBally() + 25);
+	}
+	
+	public int getBallSize(){
+		return ballSize;
+	}
+	
+	public void setBallSize(int n){
+		ballSize =  n;
 	}
 	
 	public double getTravelAngle(){
