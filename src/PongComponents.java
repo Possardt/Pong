@@ -20,6 +20,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	CollisionDetection collisionDetection = new CollisionDetection();
 	Sound sounds = new Sound();
 	PowerUp powerUp = new PowerUp();
+	private int gameTimer = 0;
 	
 	//constructor
 	public PongComponents(){
@@ -30,6 +31,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
+
 	}
 	
 	//method for moving objects
@@ -136,10 +138,21 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
 	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
 	    
+	    if((gameTimer % 1000) == 0){powerUp.setEnabled(true);}
 	    //powerup generator
 	    if(powerUp.isEnabled()){
-	    	//g.drawRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
-	    	//g.fillRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
+	    	//powerUp.setNewLocation();
+	    	if(powerUp.getPowerUpTimer() < powerUp.getPowerUpLength()){
+	    		g.drawRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
+	    		g.fillRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
+	    		System.out.println("enabled and timer: " + powerUp.getPowerUpTimer());
+	    	} else {
+	    		powerUp.setEnabled(false);
+	    		g.clearRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
+	    		powerUp.setPowerUpTimer(0);
+	    		powerUp.setNewLocation();
+	    	}
+	    	powerUp.setPowerUpTimer(powerUp.getPowerUpTimer() + 1);
 	    }
 	}
 
@@ -222,6 +235,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		gameTimer++;
+		System.out.println(gameTimer);
 		step();
 	}
 	
