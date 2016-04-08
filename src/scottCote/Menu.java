@@ -139,7 +139,7 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		if (ballSize <500)
+		if (ballSize <500 && !isSinglePlayerGameRunning && !isTwoPlayerGameRunning)
 			step();
 	}
 
