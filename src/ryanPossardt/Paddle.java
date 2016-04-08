@@ -5,7 +5,25 @@ public class Paddle {
 	private int paddleX,paddleY;
 	private int paddleSpeed;
 	private int score = 0;
+	private int paddleSizeX = 40;
+	private int paddleSizeY = 150;
 	
+	public int getPaddleSizeX() {
+		return paddleSizeX;
+	}
+
+	public void setPaddleSizeX(int paddleSizeX) {
+		this.paddleSizeX = paddleSizeX;
+	}
+
+	public int getPaddleSizeY() {
+		return paddleSizeY;
+	}
+
+	public void setPaddleSizeY(int paddleSizeY) {
+		this.paddleSizeY = paddleSizeY;
+	}
+
 	public Paddle(int x, int y){
 		this.paddleX = x;
 		this.paddleY = y;

@@ -16,6 +16,12 @@ public class CollisionDetection {
 		double yDiff = b.getBallCenterY() - p.getPaddleY();
 		return Math.atan2(xDiff , yDiff);
 	}
+	
+	public double getDistanceBetweenTwoPoints(double x1, double y1 ,double x2, double y2){
+		double xDiff = x2 - x1;
+		double yDiff = y2 - y1;
+		return Math.sqrt(xDiff * xDiff - yDiff * yDiff);
+	}
 		
 	private boolean topHit(Ball ball, Paddle paddle){
 		boolean topHit = true;

@@ -19,8 +19,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private Paddle player2 = new Paddle(1737,100);
 	CollisionDetection collisionDetection = new CollisionDetection();
 	Sound sounds = new Sound();
-	PowerUp powerUp = new PowerUp();
-	private int gameTimer = 0;
+	PowerUpBox powerUpBox = new PowerUpBox();
+	private int gameTimer = 1;
 	
 	//constructor
 	public PongComponents(){
@@ -132,27 +132,27 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    g.drawString(p2score, 974, 70);
 
 	    //player one paddle
-	    g.drawRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
-	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
+	    g.drawRect(player1.getPaddleX() , player1.getPaddleY(), player1.getPaddleSizeX(), player1.getPaddleSizeY());
+	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), player1.getPaddleSizeX(), player1.getPaddleSizeY());
 	    //player two paddle
-	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
-	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
+	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), player2.getPaddleSizeX(), player2.getPaddleSizeY());
+	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), player2.getPaddleSizeX(), player2.getPaddleSizeY());
 	    
-	    if((gameTimer % 1000) == 0){powerUp.setEnabled(true);}
+	    if((gameTimer % 1000) == 0){powerUpBox.setEnabled(true);}
 	    //powerup generator
-	    if(powerUp.isEnabled()){
+	    if(powerUpBox.isEnabled()){
 	    	//powerUp.setNewLocation();
-	    	if(powerUp.getPowerUpTimer() < powerUp.getPowerUpLength()){
-	    		g.drawRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
-	    		g.fillRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
-	    		System.out.println("enabled and timer: " + powerUp.getPowerUpTimer());
+	    	if(powerUpBox.getPowerUpTimer() < powerUpBox.getPowerUpLength()){
+	    		g.drawRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+	    		g.fillRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+	    		System.out.println("enabled and timer: " + powerUpBox.getPowerUpTimer());
 	    	} else {
-	    		powerUp.setEnabled(false);
-	    		g.clearRect(powerUp.getxLocation(), powerUp.getyLocation(), 50, 50);
-	    		powerUp.setPowerUpTimer(0);
-	    		powerUp.setNewLocation();
+	    		powerUpBox.setEnabled(false);
+	    		g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+	    		powerUpBox.setPowerUpTimer(0);
+	    		powerUpBox.setNewLocation();
 	    	}
-	    	powerUp.setPowerUpTimer(powerUp.getPowerUpTimer() + 1);
+	    	powerUpBox.setPowerUpTimer(powerUpBox.getPowerUpTimer() + 1);
 	    }
 	}
 
