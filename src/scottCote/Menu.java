@@ -21,11 +21,13 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	private Ball ballOne = new Ball();
 	private int ballSize = 50;
 	CollisionDetection collisionDetection = new CollisionDetection();
+	Sound sound = new Sound();
 
 	
 
 	
 	public Menu(){
+		//sound.playMenuSound();
 		setSingplePlayerGameRunning(false);
 		setTwoPlayerGameRunning(false);
 		setBackground(Color.BLACK);
@@ -38,8 +40,8 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		
 		ballOne.setBallx(700);
 		ballOne.setBally(700);
-		ballOne.setBallSpeedX(-14);
-		ballOne.setBallSpeedY(10);
+		ballOne.setBallSpeedX(-5);
+		ballOne.setBallSpeedY(6);
 		
 	}
 	
@@ -51,11 +53,13 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 
 		if (ballSize <500 ) {
 			if(collisionDetection.verticalWallHit(ballOne, ballSize)){
+				sound.playWallHitSound();
 				ballOne.setBallSpeedX(ballOne.getBallSpeedX()*-1);
 				ballSize += 10;
 				ballOne.setDiameter(ballSize);
 			}
 			if(collisionDetection.horizontalWallHit(ballOne, ballSize)){
+				sound.playWallHitSound();
 				ballOne.setBallSpeedY(ballOne.getBallSpeedY()*-1);
 				ballSize +=10;
 				ballOne.setDiameter(ballSize);
