@@ -18,6 +18,7 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	private volatile boolean isSinglePlayerGameRunning;
 	private volatile boolean isTwoPlayerGameRunning;
+	public static boolean powerUpModeEnabled;
 	private Ball ballOne = new Ball();
 	private int ballSize = 50;
 	CollisionDetection collisionDetection = new CollisionDetection();
@@ -75,6 +76,7 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		Font titleFont = new Font("Bauhaus 93", Font.BOLD, 150);
 		Font byFont = new Font("Bauhaus 93", Font.PLAIN, 40);
 		Font controlFont = new Font("Bauhaus 93", Font.BOLD, 50);
+		Font powerUpXFont = new Font("Bauhaus 93", Font.PLAIN, 150);
 		g.setFont(titleFont);
 	    String title = "PONG";
 	    String byOne = "by: Eric, Scott, Dan, and Ryan";
@@ -82,6 +84,8 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	    String newSinglePlayerGame = "(N) New Two Player Game";
 	    String newTwoPlayerGame = "(S) New Single Player Game";
 	    String exitApp = "(X) Exit Game";
+	    String powerUp = "(P) POWERUP MODE";
+	    String powerUpX = "X";
 	    g.setColor(Color.RED);
 	    g.fillOval((int)ballOne.getBallx(), (int)ballOne.getBally(), ballSize ,ballSize);
 	    g.setColor(Color.WHITE);
@@ -93,6 +97,12 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	    g.drawString(newSinglePlayerGame, 140, 340);
 	    g.drawString(newTwoPlayerGame, 140, 400);
 	    g.drawString(exitApp, 140, 460);
+	    g.drawString(powerUp, 1250,140);
+	    if (!powerUpModeEnabled){
+	    	g.setFont(powerUpXFont);
+	    	g.drawString(powerUpX, 1400, 160);
+	    }
+
 
 	}
 	
@@ -107,6 +117,14 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_S){
 			setSingplePlayerGameRunning(true);
+		}
+		if(ke.getKeyCode() == KeyEvent.VK_P){
+			if (!powerUpModeEnabled){
+				setPowerUpMode(true);
+			}else{
+				setPowerUpMode(false);
+			}
+
 		}
 	}
 	
@@ -140,5 +158,9 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	public void setTwoPlayerGameRunning(boolean status) {
 		this.isTwoPlayerGameRunning = status;
 	}
-
+	
+	private void setPowerUpMode(boolean status){
+		this.powerUpModeEnabled = status;
+	}
+	
 }
