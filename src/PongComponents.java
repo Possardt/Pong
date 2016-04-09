@@ -35,8 +35,9 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
 		
-		ball.setBallx(884);
-		ball.setBally(350);
+		//initial ball speed and location random
+		ball.setBallx(getRandomLocation(650, 1050));
+		ball.setBally(getRandomLocation(50,750));
 		ball.setBallSpeedX(getRandomSpeed());
 		ball.setBallSpeedY(getRandomSpeed());
 		
@@ -48,7 +49,6 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	
 	//method for moving objects
 	public void step(){
-		getRandomSpeed();
 
 		//move ball x and y once per step
 		ball.setBallx(ball.getBallx() + ball.getBallSpeedX());
@@ -227,20 +227,26 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		//need to move ball randomly off reset
-		ball.setBallx(884);
-		ball.setBally(350);
+		//need to set and move ball randomly off reset
+		ball.setBallx(getRandomLocation(650, 1050));
+		ball.setBally(getRandomLocation(50,750));
 		ball.setBallSpeedX(getRandomSpeed());
 		ball.setBallSpeedY(getRandomSpeed());
 	}
 		
-	public int getRandomSpeed(){
+	private int getRandomSpeed(){
 		double speed = (Math.random()*3)+3;
 		long sign = Math.round((Math.random()*2)-1);
 		if (sign < 0){
 			speed = speed * sign;
 		}
 		return (int)speed;
+	}
+	
+	private int getRandomLocation(int min, int max){
+		double location = (Math.random()*(max-min)) + min;
+		System.out.println(location);
+		return (int)location;
 	}
 
 	@Override
@@ -252,7 +258,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		gameTimer++;
-		System.out.println(gameTimer);
+		//System.out.println(gameTimer);
 		step();
 	}
 	
