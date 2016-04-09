@@ -22,8 +22,8 @@ public class Main {
 		m.requestFocusInWindow();
 
 		while (!gameStarted) {
-			singlePlayer = m.isSinglePlayerGameRunning();
-			twoPlayer = m.isTwoPlayerGameRunning();
+			singlePlayer = m.getSinglePlayerGameStatus();
+			twoPlayer = m.getTwoPlayerGameStatus();
 			if (twoPlayer) {
 				j.remove(m);
 				j.repaint();
