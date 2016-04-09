@@ -97,7 +97,7 @@ public class CollisionDetection {
 		}
 	}
 	
-	private boolean leftWallHit(Ball ball, int ballSize){
+	private boolean leftWallHit(Ball ball){
 		boolean leftWallHit = false;
 		if (ball.getBallCenterX() < ball.getDiameter()/2 && lastHit != "left"){
 			leftWallHit = true;
@@ -106,7 +106,7 @@ public class CollisionDetection {
 		return leftWallHit;
 	}
 	
-	private boolean rightWallHit(Ball ball, int ballSize){
+	private boolean rightWallHit(Ball ball){
 		boolean rightWallHit = false;
 		if (ball.getBallCenterX() >= 1776 - ball.getDiameter()/2 && lastHit != "right"){
 			rightWallHit = true;
@@ -115,7 +115,7 @@ public class CollisionDetection {
 		return rightWallHit;
 	}
 		
-	private boolean topWallHit(Ball ball, int ballSize){
+	private boolean topWallHit(Ball ball){
 		boolean topWallHit = false;
 		if (ball.getBallCenterY() <= ball.getDiameter()/2 && lastHit != "top"){
 			topWallHit = true;
@@ -124,7 +124,7 @@ public class CollisionDetection {
 		return topWallHit;
 	}
 	
-	private boolean bottomWallHit(Ball ball, int ballSize){
+	private boolean bottomWallHit(Ball ball){
 		boolean bottomWallHit = false;
 		if (ball.getBallCenterY() >= 840 - ball.getDiameter()/2 && lastHit != "bottom"){
 			bottomWallHit = true;
@@ -133,17 +133,17 @@ public class CollisionDetection {
 		return bottomWallHit;
 	}
 	
-	public boolean horizontalWallHit(Ball ball, int ballSize){
+	public boolean horizontalWallHit(Ball ball){
 		boolean horizontalWallHit = false;
-		if (topWallHit(ball, ballSize) || bottomWallHit(ball, ballSize)){
+		if (topWallHit(ball) || bottomWallHit(ball)){
 			horizontalWallHit = true;
 		}
 		return horizontalWallHit;
 	}	
 	
-	public boolean verticalWallHit(Ball ball, int ballSize){
+	public boolean verticalWallHit(Ball ball){
 		boolean verticalWallHit = false;
-		if (leftWallHit(ball, ballSize) || rightWallHit(ball, ballSize)){
+		if (leftWallHit(ball) || rightWallHit(ball)){
 			verticalWallHit = true;
 		}
 		return verticalWallHit;

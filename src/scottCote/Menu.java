@@ -20,7 +20,6 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	private volatile boolean twoPlayerGameEnabled;
 	public static boolean powerUpModeEnabled;
 	private Ball ballOne = new Ball();
-	private int ballSize = 500;
 	CollisionDetection collisionDetection = new CollisionDetection();
 	Sound sound = new Sound();
 	
@@ -36,10 +35,11 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
 		
-		ballOne.setBallx(200);
+		ballOne.setBallx(650);
 		ballOne.setBally(200);
-		ballOne.setBallSpeedX(-8);
-		ballOne.setBallSpeedY(3);
+		ballOne.setBallSpeedX(8);
+		ballOne.setBallSpeedY(-4);
+		ballOne.setDiameter(500);
 	}
 	
 	public void step(){
@@ -47,18 +47,16 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		ballOne.setBallx(ballOne.getBallx() + ballOne.getBallSpeedX());
 		ballOne.setBally(ballOne.getBally() + ballOne.getBallSpeedY());
 
-		if (ballSize >50 ) {
-			if(collisionDetection.verticalWallHit(ballOne, ballSize)){
+		if(ballOne.getDiameter() > 100){
+			if(collisionDetection.verticalWallHit(ballOne)){
 				sound.playWallHitSound();
 				ballOne.setBallSpeedX(ballOne.getBallSpeedX()*-1);
-				ballSize -= 15;
-				ballOne.setDiameter(ballSize);
+				ballOne.setDiameter(ballOne.getDiameter()-15);
 			}
-			if(collisionDetection.horizontalWallHit(ballOne, ballSize)){
+			if(collisionDetection.horizontalWallHit(ballOne)){
 				sound.playWallHitSound();
 				ballOne.setBallSpeedY(ballOne.getBallSpeedY()*-1);
-				ballSize -=15;
-				ballOne.setDiameter(ballSize);
+				ballOne.setDiameter(ballOne.getDiameter()-15);
 			}
 		}
 		
@@ -81,9 +79,11 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	    String powerUp = "(P) POWERUP MODE";
 	    String powerUpEnabled = "POWER UP MODE ENABLED";
 
-	    g.setColor(Color.RED);
-	    g.fillOval((int)ballOne.getBallx(), (int)ballOne.getBally(), ballSize ,ballSize);
-	    
+	    if (ballOne.getDiameter() > 100){
+		    g.setColor(Color.RED);
+		    g.fillOval((int)ballOne.getBallx(), (int)ballOne.getBally(), ballOne.getDiameter() ,ballOne.getDiameter());
+	    }
+
 		g.setFont(titleFont);
 	    g.setColor(Color.WHITE);
 	    g.drawString(title, 140, 140);
@@ -98,7 +98,7 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	    g.drawString(exitApp, 140, 460);
 	    
 	    g.setColor(Color.BLACK);
-	    g.drawString(powerUp, 700,550);
+	    g.drawString(powerUp, 140,520);
 	    
 	    if (powerUpModeEnabled){
 	    	g.setColor(Color.WHITE);
@@ -142,7 +142,7 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		if (ballSize >50 && !singlePlayerGameEnabled && !twoPlayerGameEnabled)
+		if (!singlePlayerGameEnabled && !twoPlayerGameEnabled)
 			step();
 	}
 

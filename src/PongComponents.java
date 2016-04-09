@@ -13,6 +13,7 @@ import ryanPossardt.*;
 
 public class PongComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();
+	private int ballSize = 50;
 	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo = false;
 	private static final long serialVersionUID = 1L;
 	private Paddle player1 = new Paddle(0,100);
