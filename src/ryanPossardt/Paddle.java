@@ -61,4 +61,12 @@ public class Paddle {
 	public void setPaddleSpeed(int paddleSpeed) {
 		this.paddleSpeed = paddleSpeed;
 	}
+
+	public float getPaddleCenterY() {
+		return this.paddleY + this.paddleSizeY/2;
+	}
+
+	public float getPaddleCenterX() {
+		return this.paddleX + this.paddleSizeX/2;
+	}
 }
