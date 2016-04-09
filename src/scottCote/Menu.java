@@ -16,21 +16,18 @@ import ryanPossardt.*;
 public class Menu extends JPanel implements ActionListener, KeyListener {
 	
 	private static final long serialVersionUID = 1L;
-	private volatile boolean isSinglePlayerGameRunning;
-	private volatile boolean isTwoPlayerGameRunning;
+	private volatile boolean singlePlayerGameEnabled;
+	private volatile boolean twoPlayerGameEnabled;
 	public static boolean powerUpModeEnabled;
 	private Ball ballOne = new Ball();
 	private int ballSize = 50;
 	CollisionDetection collisionDetection = new CollisionDetection();
 	Sound sound = new Sound();
-
-	
-
 	
 	public Menu(){
 		//sound.playMenuSound();
-		setSingplePlayerGameRunning(false);
-		setTwoPlayerGameRunning(false);
+		setSinglePlayerGameStatus(false);
+		setTwoPlayerGameStatus(false);
 		setBackground(Color.BLACK);
 		setFocusable(true);
 		addKeyListener(this);
@@ -43,12 +40,10 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 		ballOne.setBally(700);
 		ballOne.setBallSpeedX(-5);
 		ballOne.setBallSpeedY(6);
-		
 	}
 	
 	public void step(){
 		
-		//move ball one
 		ballOne.setBallx(ballOne.getBallx() + ballOne.getBallSpeedX());
 		ballOne.setBally(ballOne.getBally() + ballOne.getBallSpeedY());
 
@@ -110,13 +105,13 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		if(ke.getKeyCode() == KeyEvent.VK_N){
-			setTwoPlayerGameRunning(true);
+			setTwoPlayerGameStatus(true);
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_X){
 			System.exit(0);
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_S){
-			setSingplePlayerGameRunning(true);
+			setSinglePlayerGameStatus(true);
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_P){
 			if (!powerUpModeEnabled){
@@ -139,24 +134,24 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		if (ballSize <500 && !isSinglePlayerGameRunning && !isTwoPlayerGameRunning)
+		if (ballSize <500 && !singlePlayerGameEnabled && !twoPlayerGameEnabled)
 			step();
 	}
 
-	public boolean isSinglePlayerGameRunning() {
-		return isSinglePlayerGameRunning;
+	public boolean getSinglePlayerGameStatus() {
+		return singlePlayerGameEnabled;
 	}
 
-	public void setSingplePlayerGameRunning(boolean status) {
-		this.isSinglePlayerGameRunning = status;
+	public void setSinglePlayerGameStatus(boolean status) {
+		this.singlePlayerGameEnabled = status;
 	}
 	
-	public boolean isTwoPlayerGameRunning() {
-		return isTwoPlayerGameRunning;
+	public boolean getTwoPlayerGameStatus() {
+		return twoPlayerGameEnabled;
 	}
 
-	public void setTwoPlayerGameRunning(boolean status) {
-		this.isTwoPlayerGameRunning = status;
+	public void setTwoPlayerGameStatus(boolean status) {
+		this.twoPlayerGameEnabled = status;
 	}
 	
 	private void setPowerUpMode(boolean status){
