@@ -20,7 +20,7 @@ public class CollisionDetection {
 	public double getDistanceBetweenTwoPoints(double x1, double y1 ,double x2, double y2){
 		double xDiff = x2 - x1;
 		double yDiff = y2 - y1;
-		return Math.sqrt(xDiff * xDiff - yDiff * yDiff);
+		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 		
 	private boolean topHit(Ball ball, Paddle paddle){
@@ -28,7 +28,7 @@ public class CollisionDetection {
 		float delta = ball.getBally() - paddle.getPaddleY();
 		if (delta <=-50 || delta >= 50){
 			topHit = false;
-			System.out.println("Bottom hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
+			//System.out.println("Bottom hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
 		}
 		return topHit;
 	}
@@ -38,7 +38,7 @@ public class CollisionDetection {
 		float delta = ball.getBally()-paddle.getPaddleY();
 		if (delta < 50 || delta >= 150){
 			bottomHit = false;
-			System.out.println("Top hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
+			//System.out.println("Top hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
 		}
 		return bottomHit;
 	}
@@ -147,5 +147,19 @@ public class CollisionDetection {
 			verticalWallHit = true;
 		}
 		return verticalWallHit;
+	}
+	public boolean powerUpBoxHit(Ball ball, PowerUpBox powerUpBox){
+		double ballX = (double)ball.getBallCenterX();
+		double ballY = (double)ball.getBallCenterY();
+		double boxX = (double)powerUpBox.getCenterX();
+		double boxY = (double)powerUpBox.getCenterY();
+		double distance = getDistanceBetweenTwoPoints(ballX, ballY, boxX, boxY );
+		if(distance < 50){
+			System.out.println("collision between ball and powerupbox: " + distance);
+			return true;
+		}else{
+			System.out.println("distance between ball and box: " + distance);
+			return false;
+		}
 	}
 }

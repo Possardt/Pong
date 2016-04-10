@@ -4,9 +4,13 @@ public class PowerUpBox {
 	
 	private int xLocation = (int)(Math.random() * 1000);
 	private int yLocation = (int)(Math.random() * 1000);
-	private boolean isEnabled = true;
+	private boolean isEnabled = false;
 	private int powerUpTimer = 0;
-	private int powerUpLength = 500;
+	private int powerUpLength = 300;
+	
+	public PowerUpBox(){
+		setNewLocation();
+	}
 	
 	
 	public int getPowerUpTimer() {
@@ -49,6 +53,13 @@ public class PowerUpBox {
 		return isEnabled;
 	}
 	
+	public int getCenterX(){
+		return xLocation + 25;
+	}
+	
+	public int getCenterY(){
+		return yLocation + 25;
+	}
 	
 	public void setNewLocation(){
 		xLocation = (int)(Math.random() * 1000) + 300;

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import ryanPossardt.*;
+import scottCote.Menu;
 
 public class PongComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();
@@ -20,6 +21,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	CollisionDetection collisionDetection = new CollisionDetection();
 	Sound sounds = new Sound();
 	PowerUpBox powerUpBox = new PowerUpBox();
+	PowerUp powerUp = new PowerUp();
 	private int gameTimer = 1;
 	
 	//constructor
@@ -96,7 +98,6 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		collisionDetection.hitPaddle(ball, player1);
 		collisionDetection.hitPaddle(ball, player2);
 		
-		
 		//repaint to show reflected changes
 		repaint();
 	}
@@ -137,21 +138,26 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    //player two paddle
 	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), player2.getPaddleSizeX(), player2.getPaddleSizeY());
 	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), player2.getPaddleSizeX(), player2.getPaddleSizeY());
-	    
-	    if((gameTimer % 1000) == 0){powerUpBox.setEnabled(true);}
+	    if(Menu.powerUpModeEnabled){
+	    	if((gameTimer % 500) == 0){powerUpBox.setEnabled(true);}
+	    }
 	    //powerup generator
 	    if(powerUpBox.isEnabled()){
 	    	//powerUp.setNewLocation();
 	    	if(powerUpBox.getPowerUpTimer() < powerUpBox.getPowerUpLength()){
 	    		g.drawRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
 	    		g.fillRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
-	    		System.out.println("enabled and timer: " + powerUpBox.getPowerUpTimer());
+	    		//System.out.println("enabled and timer: " + powerUpBox.getPowerUpTimer());
 	    	} else {
-	    		powerUpBox.setEnabled(false);
 	    		g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
-	    		powerUpBox.setPowerUpTimer(0);
-	    		powerUpBox.setNewLocation();
+	    		disablePowerUpBox();
 	    	}
+	    	//detection for collision between ball and power up box.
+			if(collisionDetection.powerUpBoxHit(ball, powerUpBox)){
+				g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+				disablePowerUpBox();
+				powerUp.shrinkBall(ball);
+			}
 	    	powerUpBox.setPowerUpTimer(powerUpBox.getPowerUpTimer() + 1);
 	    }
 	}
@@ -236,8 +242,14 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		gameTimer++;
-		System.out.println(gameTimer);
+		//System.out.println(gameTimer);
 		step();
+	}
+	
+	public void disablePowerUpBox(){
+		powerUpBox.setEnabled(false);
+		powerUpBox.setPowerUpTimer(0);
+		powerUpBox.setNewLocation();
 	}
 	
 }

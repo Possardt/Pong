@@ -54,13 +54,13 @@ public class Menu extends JPanel implements ActionListener, KeyListener {
 
 		if (ballSize <500 ) {
 			if(collisionDetection.verticalWallHit(ballOne, ballSize)){
-				sound.playWallHitSound();
+				//sound.playWallHitSound();
 				ballOne.setBallSpeedX(ballOne.getBallSpeedX()*-1);
 				ballSize += 10;
 				ballOne.setDiameter(ballSize);
 			}
 			if(collisionDetection.horizontalWallHit(ballOne, ballSize)){
-				sound.playWallHitSound();
+				//sound.playWallHitSound();
 				ballOne.setBallSpeedY(ballOne.getBallSpeedY()*-1);
 				ballSize +=10;
 				ballOne.setDiameter(ballSize);
