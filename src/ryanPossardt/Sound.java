@@ -45,5 +45,15 @@ public class Sound {
 			e.printStackTrace();
 		}
 	}
+	public void playPowerUpSound(){
+		try{
+			InputStream inputStream = getClass().getResourceAsStream("powerUp.wav");
+			AudioStream audioStream = new AudioStream(inputStream);
+			AudioPlayer.player.start(audioStream);
+		}catch(Exception e){
+			System.out.println("Sound not played");
+			e.printStackTrace();
+		}
+	}
 	
 }

@@ -5,10 +5,11 @@ public class CollisionDetection {
 	
 	private String lastHit = null;
 	private Sound sounds = new Sound();
+	private float ballVsPaddleDY;
 	
-	public float calculateYBallSpeed(float delta){
-		float temp = Math.abs(delta - 70)/10;
-		return temp;
+	public float calculateYBallSpeed(){
+		float bs = Math.abs(ballVsPaddleDY/10);
+		return bs;
 	}
 	//to get angle between ball/paddle to eventually make collision between ball and corner of paddle
 	public double calculateAngleBetweenPoints(Ball b, Paddle p){
@@ -23,38 +24,44 @@ public class CollisionDetection {
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 		
-	private boolean topHit(Ball ball, Paddle paddle){
-		boolean topHit = true;
-		float delta = ball.getBally() - paddle.getPaddleY();
-		if (delta <=-50 || delta >= 50){
-			topHit = false;
-			//System.out.println("Bottom hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
+
+	public boolean topHit(Ball ball, Paddle paddle){
+		boolean topHit = false;
+		float ballVsPaddleDX = Math.abs(ball.getBallCenterX() - paddle.getPaddleCenterX());
+		ballVsPaddleDY = Math.abs(ball.getBallCenterY() - paddle.getPaddleCenterY());
+		float ballRadius = ball.getDiameter()/2;
+		if (ballVsPaddleDX <= (ballRadius + paddle.getPaddleSizeX()/2) 
+				&& ball.getBallCenterY() <= paddle.getPaddleCenterY()
+				&& ballVsPaddleDY <= (ballRadius + paddle.getPaddleSizeY()/2)){
+			topHit = true;
+			lastHit = "paddle";
 		}
 		return topHit;
 	}
-	
-	private boolean bottomHit(Ball ball, Paddle paddle){
-		boolean bottomHit = true;
-		float delta = ball.getBally()-paddle.getPaddleY();
-		if (delta < 50 || delta >= 150){
-			bottomHit = false;
-			//System.out.println("Top hit, Delta: " + delta + ", Y speed should be: " + calculateYBallSpeed(delta));
+	public boolean bottomHit(Ball ball, Paddle paddle){
+		boolean bottomHit = false;
+		float ballVsPaddleDX = Math.abs(ball.getBallCenterX() - paddle.getPaddleCenterX());
+		ballVsPaddleDY = Math.abs(ball.getBallCenterY() - paddle.getPaddleCenterY());
+		float ballRadius = ball.getDiameter()/2;
+		if (ballVsPaddleDX <= (ballRadius + paddle.getPaddleSizeX()/2)
+				&& ball.getBallCenterY() > paddle.getPaddleCenterY()
+				&& ballVsPaddleDY <= (ballRadius + paddle.getPaddleSizeY()/2)){
+			bottomHit = true;
+			lastHit = "paddle";
 		}
 		return bottomHit;
 	}
 			
 	public void hitPaddle(Ball ball, Paddle paddle){
-		float delta = ball.getBally()-paddle.getPaddleY() + 25;
-
+		//float delta = ball.getBally()-paddle.getPaddleY() + 25;
 		//if ball hits paddle
 		if(paddle.getPaddleX() < 100){
-			double angle = calculateAngleBetweenPoints(ball,paddle);		
-			//System.out.println("Angle between ball/paddle: " + angle);
+		
 			if((paddle.getPaddleX() - ball.getBallx() > -40) && (topHit(ball, paddle) || bottomHit(ball,paddle))){
 				ball.setLastPaddleHit(paddle);
 				if (topHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
-					ball.setBallSpeedY(calculateYBallSpeed(delta));
+					ball.setBallSpeedY(calculateYBallSpeed());
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (!ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction up
@@ -63,7 +70,7 @@ public class CollisionDetection {
 				}
 				if (bottomHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
-					ball.setBallSpeedY(calculateYBallSpeed(delta));
+					ball.setBallSpeedY(calculateYBallSpeed());
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction down
@@ -78,7 +85,7 @@ public class CollisionDetection {
 				sounds.rightPaddleHitSound();
 				if (topHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
-					ball.setBallSpeedY(calculateYBallSpeed(delta));
+					ball.setBallSpeedY(calculateYBallSpeed());
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (!ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction up
@@ -87,7 +94,7 @@ public class CollisionDetection {
 				}
 				if (bottomHit(ball, paddle)){
 					ball.setBallSpeedX(ball.getBallSpeedX() + 1);					//increase speed
-					ball.setBallSpeedY(calculateYBallSpeed(delta));
+					ball.setBallSpeedY(calculateYBallSpeed());
 					ball.setDirectionballx(ball.getDirectionballx() + 1);		//invert x direction
 					if (ball.yDirectionIsEven()){
 						ball.setDirectionbally(ball.getDirectionbally() +1);		//y direction down
@@ -97,7 +104,7 @@ public class CollisionDetection {
 		}
 	}
 	
-	private boolean leftWallHit(Ball ball, int ballSize){
+	public boolean leftWallHit(Ball ball){
 		boolean leftWallHit = false;
 		if (ball.getBallCenterX() < ball.getDiameter()/2 && lastHit != "left"){
 			leftWallHit = true;
@@ -106,7 +113,7 @@ public class CollisionDetection {
 		return leftWallHit;
 	}
 	
-	private boolean rightWallHit(Ball ball, int ballSize){
+	public boolean rightWallHit(Ball ball){
 		boolean rightWallHit = false;
 		if (ball.getBallCenterX() >= 1776 - ball.getDiameter()/2 && lastHit != "right"){
 			rightWallHit = true;
@@ -115,7 +122,7 @@ public class CollisionDetection {
 		return rightWallHit;
 	}
 		
-	private boolean topWallHit(Ball ball, int ballSize){
+	public boolean topWallHit(Ball ball){
 		boolean topWallHit = false;
 		if (ball.getBallCenterY() <= ball.getDiameter()/2 && lastHit != "top"){
 			topWallHit = true;
@@ -124,7 +131,7 @@ public class CollisionDetection {
 		return topWallHit;
 	}
 	
-	private boolean bottomWallHit(Ball ball, int ballSize){
+	public boolean bottomWallHit(Ball ball){
 		boolean bottomWallHit = false;
 		if (ball.getBallCenterY() >= 840 - ball.getDiameter()/2 && lastHit != "bottom"){
 			bottomWallHit = true;
@@ -133,17 +140,17 @@ public class CollisionDetection {
 		return bottomWallHit;
 	}
 	
-	public boolean horizontalWallHit(Ball ball, int ballSize){
+	public boolean horizontalWallHit(Ball ball){
 		boolean horizontalWallHit = false;
-		if (topWallHit(ball, ballSize) || bottomWallHit(ball, ballSize)){
+		if (topWallHit(ball) || bottomWallHit(ball)){
 			horizontalWallHit = true;
 		}
 		return horizontalWallHit;
 	}	
 	
-	public boolean verticalWallHit(Ball ball, int ballSize){
+	public boolean verticalWallHit(Ball ball){
 		boolean verticalWallHit = false;
-		if (leftWallHit(ball, ballSize) || rightWallHit(ball, ballSize)){
+		if (leftWallHit(ball) || rightWallHit(ball)){
 			verticalWallHit = true;
 		}
 		return verticalWallHit;

@@ -23,6 +23,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	PowerUpBox powerUpBox = new PowerUpBox();
 	PowerUp powerUp = new PowerUp();
 	private int gameTimer = 1;
+	private boolean powerUpModeEnabled;
+	
 	
 	//constructor
 	public PongComponents(){
@@ -33,40 +35,73 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
+		
+		//initial ball speed and location random
+		ball.setBallx(getRandomLocation(650, 1050));
+		ball.setBally(getRandomLocation(50,750));
+		ball.setBallSpeedX(getRandomSpeed());
+		ball.setBallSpeedY(getRandomSpeed());
+		
+		powerUpModeEnabled = Menu.powerUpModeEnabled;
+		powerUpBox.setEnabled(false);		//initialize as false, change if needed.
+		
 
 	}
 	
 	//method for moving objects
 	public void step(){
-		//moving the ball on the court
-		if(ball.getBallx() >= 1726){
+
+		//move ball x and y once per step
+		ball.setBallx(ball.getBallx() + ball.getBallSpeedX());
+		ball.setBally(ball.getBally() + ball.getBallSpeedY());
+				
+		//player 1 score
+		if(collisionDetection.rightWallHit(ball)){
 			player1.addGoal();
-			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
-		if(ball.getBallx() <= 0){
+		//player 2 score
+		if(collisionDetection.leftWallHit(ball)){
 			player2.addGoal();
-			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
-		
-		if(ball.getBally() >= 793 || ball.getBally() <= 0){
-			ball.setDirectionbally(ball.getDirectionbally() + 1);
-		}
-		//System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
-		//System.out.println("Player two x: " + player2.getPaddleX() + ", Player two y: " + player2.getPaddleY());
-		if(ball.getDirectionballx()%2 == 0){
-			ball.setBallx(ball.getBallx() - ball.getBallSpeedX());
-		}else{
-			ball.setBallx(ball.getBallx() + ball.getBallSpeedX());
+		//top or bottom wall bounce
+		if(collisionDetection.horizontalWallHit(ball)){
+			ball.setBallSpeedY(ball.getBallSpeedY()*-1);
 		}
 		
-		if(ball.getDirectionbally()%2 == 0){
-			ball.setBally(ball.getBally() - ball.getBallSpeedY());
-		}else{
-			ball.setBally(ball.getBally() + ball.getBallSpeedY());
+		//left paddle hit processing
+		if(collisionDetection.topHit(ball, player1) || collisionDetection.bottomHit(ball, player1)){
+			if (!powerUpModeEnabled){
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1 +1);
+			}else{
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1);
+			}
+			if (collisionDetection.topHit(ball, player1)){
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed()*-1);
+			}else{
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed());
+			}
+			ball.setLastPaddleHit(player1);
+			sounds.leftPaddleHitSound();
 		}
 		
+		//right paddle hit processing
+		if(collisionDetection.topHit(ball, player2) || collisionDetection.bottomHit(ball, player2)){
+			if (!powerUpModeEnabled){
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1 -1);
+			}else{
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1);
+			}
+			if (collisionDetection.topHit(ball, player2)){
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed()*-1);
+			}else{
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed());
+			}
+			ball.setLastPaddleHit(player2);
+			sounds.rightPaddleHitSound();
+		}
+				
 		//moving player ones paddle
 		//up pressed
 		if(upPressedPlayerOne){
@@ -74,7 +109,6 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				player1.setPaddleY(player1.getPaddleY()- player1.getPaddleSpeed()) ;
 			}
 		}
-		
 		//down pressed
 		if(downPressedPlayerOne){
 			if(player1.getPaddleY() + player1.getPaddleSpeed() + 140 < getHeight()){
@@ -110,20 +144,13 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		g.setFont(font);
 	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), ball.getBallSize(), ball.getBallSize());
 
-	    
 	    //lines down center of court
 	    //getWidth()/2 yields 889
-	    g.drawRect(884, 0, 10, 100);
 	    g.fillRect(884, 0, 10, 100);
-	    g.drawRect(884, 150, 10, 100);
 	    g.fillRect(884, 150, 10, 100);
-	    g.drawRect(884, 300, 10, 100);
 	    g.fillRect(884, 300, 10, 100);
-	    g.drawRect(884, 450, 10, 100);
 	    g.fillRect(884, 450, 10, 100);
-	    g.drawRect(884, 600, 10, 100);
 	    g.fillRect(884, 600, 10, 100);
-	    g.drawRect(884, 750, 10, 100);
 	    g.fillRect(884, 750, 10, 100);
 	    
 	    //score
@@ -133,14 +160,13 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    g.drawString(p2score, 974, 70);
 
 	    //player one paddle
-	    g.drawRect(player1.getPaddleX() , player1.getPaddleY(), player1.getPaddleSizeX(), player1.getPaddleSizeY());
 	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), player1.getPaddleSizeX(), player1.getPaddleSizeY());
 	    //player two paddle
-	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), player2.getPaddleSizeX(), player2.getPaddleSizeY());
 	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), player2.getPaddleSizeX(), player2.getPaddleSizeY());
-	    if(Menu.powerUpModeEnabled){
-	    	if((gameTimer % 500) == 0){powerUpBox.setEnabled(true);}
-	    }
+
+	    if(powerUpModeEnabled && (gameTimer % 1000) == 0){
+	    	powerUpBox.setEnabled(true);
+	    	}
 	    //powerup generator
 	    if(powerUpBox.isEnabled()){
 	    	//powerUp.setNewLocation();
@@ -209,28 +235,26 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		//need to move ball randomly off reset
-		ball.setDirectionballx(getRandomDirection());
-		ball.setDirectionbally(getRandomDirection());
-		ball.setBallx(884);
-		ball.setBally(350);
-		ball.setBallSpeedX(4);
-		ball.setBallSpeedY(1);
+		//need to set and move ball randomly off reset
+		ball.setBallx(getRandomLocation(650, 1050));
+		ball.setBally(getRandomLocation(50,750));
+		ball.setBallSpeedX(getRandomSpeed());
+		ball.setBallSpeedY(getRandomSpeed());
 	}
-	
-	public int getRandomDirection(){
-		double direction = Math.random() * 10;
-		double way = Math.random();
-		if(way > .50)
-			direction *= -1;
-		System.out.println(direction);
-		return (int)direction;
-	}
-	
-	public int getRandomSpeed(){
-		double speed = Math.random();
-		speed = (speed * 10) % 5;
+		
+	private int getRandomSpeed(){
+		double speed = (Math.random()*3)+3;
+		long sign = Math.round((Math.random()*2)-1);
+		if (sign < 0){
+			speed = speed * sign;
+		}
 		return (int)speed;
+	}
+	
+	private int getRandomLocation(int min, int max){
+		double location = (Math.random()*(max-min)) + min;
+		System.out.println(location);
+		return (int)location;
 	}
 
 	@Override
