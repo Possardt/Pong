@@ -44,7 +44,6 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		
 		powerUpModeEnabled = Menu.powerUpModeEnabled;
 		powerUpBox.setEnabled(false);		//initialize as false, change if needed.
-		
 
 	}
 	
@@ -78,7 +77,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				ball.setBallSpeedX(ball.getBallSpeedX()*-1);
 			}
 			if (collisionDetection.topHit(ball, player1)){
-				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed()*-1);
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed() * -1);
 			}else{
 				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed());
 			}
@@ -129,8 +128,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		}
 		
 		//checking to see if ball hit someones paddle
-		collisionDetection.hitPaddle(ball, player1);
-		collisionDetection.hitPaddle(ball, player2);
+		//collisionDetection.hitPaddle(ball, player1);
+		//collisionDetection.hitPaddle(ball, player2);
 		
 		//repaint to show reflected changes
 		repaint();

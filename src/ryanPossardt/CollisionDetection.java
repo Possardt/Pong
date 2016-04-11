@@ -9,6 +9,7 @@ public class CollisionDetection {
 	
 	public float calculateYBallSpeed(){
 		float bs = Math.abs(ballVsPaddleDY/10);
+		System.out.println("ball speed: " + bs);
 		return bs;
 	}
 	//to get angle between ball/paddle to eventually make collision between ball and corner of paddle
