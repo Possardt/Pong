@@ -110,7 +110,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		}
 		//down pressed
 		if(downPressedPlayerOne){
-			if(player1.getPaddleY() + player1.getPaddleSpeed() + 140 < getHeight()){
+			if(player1.getPaddleY() + player1.getPaddleSpeed() + player1.getPaddleSizeY() < getHeight()){
 				player1.setPaddleY(player1.getPaddleY() + player1.getPaddleSpeed());
 			}
 		}
@@ -122,7 +122,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 			}
 		}
 		if(downPressedPlayerTwo){
-			if(player2.getPaddleY() + player2.getPaddleSpeed() + 140 < getHeight()){
+			if(player2.getPaddleY() + player2.getPaddleSpeed() + player2.getPaddleSizeY() < getHeight()){
 				player2.setPaddleY(player2.getPaddleY() + player2.getPaddleSpeed());
 			}
 		}
@@ -180,6 +180,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    	}
 	    	//detection for collision between ball and power up box.
 			if(collisionDetection.powerUpBoxHit(ball, powerUpBox)){
+				sounds.playPowerUpSound();
 				g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
 				disablePowerUpBox();
 				powerUp.shrinkBall(ball);
@@ -243,7 +244,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	}
 		
 	private int getRandomSpeed(){
-		double speed = (Math.random()*3)+3;
+		double speed = (Math.random()*5)+3;
 		long sign = Math.round((Math.random()*2)-1);
 		if (sign < 0){
 			speed = speed * sign;
