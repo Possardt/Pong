@@ -6,10 +6,10 @@ public class PowerUp {
 	}
 	
 	public void shrinkBall(Ball b){
-		b.setBallSize(b.getBallSize() / 2);
+		b.setDiameter(b.getDiameter() / 2);
 	}
 	
 	public void unshrinkBall(Ball b){
-		b.setBallSize(b.getBallSize() * 2);
+		b.setDiameter(b.getDiameter() * 2);
 	}
 }

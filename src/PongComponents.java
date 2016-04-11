@@ -141,7 +141,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		g.setColor(Color.WHITE);
 		Font font = new Font("Bauhaus 93", Font.PLAIN, 60);
 		g.setFont(font);
-	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), ball.getBallSize(), ball.getBallSize());
+	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), ball.getDiameter(), ball.getDiameter());
 
 	    //lines down center of court
 	    //getWidth()/2 yields 889
@@ -168,6 +168,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    	}
 	    //powerup generator
 	    if(powerUpBox.isEnabled()){
+
 	    	//powerUp.setNewLocation();
 	    	if(powerUpBox.getPowerUpTimer() < powerUpBox.getPowerUpLength()){
 	    		g.drawRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
