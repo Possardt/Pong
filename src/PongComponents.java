@@ -82,6 +82,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed());
 			}
 			ball.setLastPaddleHit(player1);
+			ball.setNextPaddleHit(player2);
 			sounds.leftPaddleHitSound();
 		}
 		
@@ -98,6 +99,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed());
 			}
 			ball.setLastPaddleHit(player2);
+			ball.setNextPaddleHit(player1);
 			sounds.rightPaddleHitSound();
 		}
 				
@@ -165,6 +167,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 
 	    if(powerUpModeEnabled && (gameTimer % 1000) == 0){
 	    	powerUpBox.setEnabled(true);
+	    	powerUp.undoPowerUp(ball);
 	    	}
 	    //powerup generator
 	    if(powerUpBox.isEnabled()){
@@ -183,7 +186,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				sounds.playPowerUpSound();
 				g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
 				disablePowerUpBox();
-				powerUp.shrinkBall(ball);
+				powerUp.getRandomPowerUp(ball, ball.getNextPaddleHit());
 			}
 	    	powerUpBox.setPowerUpTimer(powerUpBox.getPowerUpTimer() + 1);
 	    }
