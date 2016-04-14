@@ -7,18 +7,22 @@ public class PowerUp {
 	
 	public void getRandomPowerUp(Ball b, Paddle p ){
 		double selector = Math.random();
-		if (selector < .33){
-			shrinkPaddle(p);
-			affectedPaddle = p;
+		if (selector > 0){
+			shrinkPaddle(b.getLastPaddleHit());
+			affectedPaddle = b.getLastPaddleHit();
 			powerUpSelector = 1;
-		}else if(selector < .66){
+		}else if(selector > .25){
 			//shrink ball
 			shrinkBall(b);
 			powerUpSelector =  2;
-		}else if(selector > .66){
-			slowPaddle(p);
+		}else if(selector > .5){
+			slowPaddle(b.getNextPaddleHit());
 			powerUpSelector = 3;
-			affectedPaddle = p;
+			affectedPaddle = b.getNextPaddleHit();
+		}else if(selector > .75){
+			fastPaddle(b.getLastPaddleHit());
+			powerUpSelector = 4;
+			affectedPaddle = b.getLastPaddleHit();
 		}
 		
 	}
@@ -30,6 +34,8 @@ public class PowerUp {
 			unShrinkBall(b);
 		}else if(powerUpSelector == 3){
 			unSlowPaddle(affectedPaddle);
+		}else if(powerUpSelector == 4){
+			unFastPaddle(affectedPaddle);
 		}
 		
 		powerUpSelector = 0;
@@ -59,4 +65,14 @@ public class PowerUp {
 	public void unSlowPaddle(Paddle p){
 		p.setPaddleSpeed(p.getPaddleSpeed() * 2);
 	}
+	
+	public void fastPaddle(Paddle p){
+		p.setPaddleSpeed(p.getPaddleSpeed() * 2);
+	}
+	
+	public void unFastPaddle(Paddle p){
+		p.setPaddleSpeed(p.getPaddleSpeed() / 2);
+	}
+	
+	
 }
