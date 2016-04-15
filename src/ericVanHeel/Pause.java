@@ -28,8 +28,7 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 		j.add(this, BorderLayout.CENTER);
 		j.setSize(600, 300);
 		j.setVisible(false);
-		
-		j.setBackground(Color.BLACK);
+		setBackground(Color.BLACK);
 		j.setFocusable(false);
 		j.addKeyListener(this);
 		repaint();
@@ -64,6 +63,7 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 		String resumeGame = "(R) Resume Game";
 		String menu = "(M) Main Menu";
 		String quit = "(X) Exit Pong";
+
 		g.drawString(title,  200, 60);
 		g.setFont(optionsFont);
 		g.drawString(resumeGame, 220, 110);
