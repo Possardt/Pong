@@ -34,7 +34,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		setFocusable(true);
 		addKeyListener(this);
 		
-		Timer timer = new Timer(1000/60, this);
+		Timer timer = new Timer(1000/70, this);
 		timer.start();
 		
 		//initial ball speed and location random
@@ -149,7 +149,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if(isPaused){
 			ball.setBallSpeedX(0);
 			ball.setBallSpeedY(0);
-			System.out.println(btempx+", "+btempy);
+			//System.out.println(btempx+", "+btempy);
 		}
 		
 		//checking to see if ball hit someones paddle

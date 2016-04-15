@@ -31,7 +31,9 @@ public class Main {
 				gameRunning(p2, pm, j, m, go);
 				return;
 			}
-			System.out.println("Game Running");
+			//System.out.println("Game Running");
+			//pause shield will not appear unless there is a system function here...
+			System.out.print("");
 		}
 		System.out.println("Game Paused");
 		pm.setGamePaused(true);

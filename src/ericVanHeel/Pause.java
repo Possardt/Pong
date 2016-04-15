@@ -34,7 +34,7 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 		j.addKeyListener(this);
 		repaint();
 		
-		Timer timer = new Timer(1000/60, this);
+		Timer timer = new Timer(1000/70, this);
 		timer.start();
 	}
 	
