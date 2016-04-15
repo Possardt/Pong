@@ -9,12 +9,14 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import ericVanHeel.GameOver;
+import ericVanHeel.Pause;
 import ryanPossardt.*;
 import scottCote.Menu;
 
 public class PongComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();
-	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo = false;
+	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo, isPaused = false;
 	private static final long serialVersionUID = 1L;
 	private Paddle player1 = new Paddle(0,100);
 	private Paddle player2 = new Paddle(1737,100);
@@ -24,6 +26,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	PowerUp powerUp = new PowerUp();
 	private int gameTimer = 1;
 	private boolean powerUpModeEnabled;
+	private Pause pm = new Pause(false);
+	private GameOver go = new GameOver(false);
 	
 	
 	//constructor
@@ -57,13 +61,29 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		//player 1 score
 		if(collisionDetection.rightWallHit(ball)){
 			player1.addGoal();
-			resetBall();
+			if(player1.getScore() == 5){
+				go.setGameOver(true);
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			resetBall();
+		}
 		//player 2 score
 		if(collisionDetection.leftWallHit(ball)){
 			player2.addGoal();
-			resetBall();
+			if(player2.getScore() == 5){
+				go.setGameOver(true);
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			resetBall();
+		}
 		//top or bottom wall bounce
 		if(collisionDetection.horizontalWallHit(ball)){
 			ball.setBallSpeedY(ball.getBallSpeedY()*-1);
@@ -125,6 +145,14 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 			if(player2.getPaddleY() + player2.getPaddleSpeed() + player2.getPaddleSizeY() < getHeight()){
 				player2.setPaddleY(player2.getPaddleY() + player2.getPaddleSpeed());
 			}
+		}
+		
+		if(isPaused){
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 		}
 		
 		//checking to see if ball hit someones paddle
@@ -206,6 +234,10 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if(k.getKeyCode() == KeyEvent.VK_DOWN){
 			downPressedPlayerTwo = true;
 		}
+		
+		if(k.getKeyCode() == KeyEvent.VK_ESCAPE){
+			isPaused = true;
+		}
 	}
 
 	@Override
@@ -275,6 +307,10 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		powerUpBox.setEnabled(false);
 		powerUpBox.setPowerUpTimer(0);
 		powerUpBox.setNewLocation();
+	}
+	
+	public boolean getIsPaused(){
+		return isPaused;
 	}
 	
 }

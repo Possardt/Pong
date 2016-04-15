@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 
 import scottCote.*;
 import danielMarciniec.*;
+import ericVanHeel.Pause;
 
 public class Main {
 
@@ -20,6 +21,8 @@ public class Main {
 		j.setSize(1800, 900);
 		j.setVisible(true);
 		m.requestFocusInWindow();
+		
+		Pause pm = new Pause(false);
 
 		while (!gameStarted) {
 			singlePlayer = m.getSinglePlayerGameStatus();
@@ -33,18 +36,28 @@ public class Main {
 				j.setVisible(true);
 				p.requestFocusInWindow();
 				gameStarted = true;
+				gameRunning(p, pm);
 			}
 			if (singlePlayer) {
 				j.remove(m);
 				j.repaint();
-				CPUComponents p = new CPUComponents();
-				j.add(p, BorderLayout.CENTER);
+				CPUComponents cp = new CPUComponents();
+				j.add(cp, BorderLayout.CENTER);
 				j.setSize(1800, 900);
 				j.setVisible(true);
-				p.requestFocusInWindow();
+				cp.requestFocusInWindow();
 				gameStarted = true;
 			} 
-		} 	
+		}
+	}
+	public static void gameRunning(PongComponents p, Pause pm){
+		while (!p.getIsPaused()){
+			System.out.println("Game Running");
+		}
+		System.out.println("Game Paused");
+		pm.setGamePaused(true);
+		pm.setVisible(true);
+		pm.setFocusable(true);
 	}
 }
 
