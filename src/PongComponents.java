@@ -16,7 +16,7 @@ import scottCote.Menu;
 
 public class PongComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();
-	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo, isPaused = false;
+	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo, isPaused, gameOver = false;
 	private static final long serialVersionUID = 1L;
 	private Paddle player1 = new Paddle(0,100);
 	private Paddle player2 = new Paddle(1737,100);
@@ -26,7 +26,6 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	PowerUp powerUp = new PowerUp();
 	private int gameTimer = 1;
 	private boolean powerUpModeEnabled;
-	private GameOver go = new GameOver(false);
 	float btempx, btempy;
 	
 	
@@ -62,12 +61,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if(collisionDetection.rightWallHit(ball)){
 			player1.addGoal();
 			if(player1.getScore() == 5){
-				go.setGameOver(true);
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				gameOver = true;
 			}
 			resetBall();
 		}
@@ -75,12 +69,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if(collisionDetection.leftWallHit(ball)){
 			player2.addGoal();
 			if(player2.getScore() == 5){
-				go.setGameOver(true);
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				gameOver = true;
 			}
 			resetBall();
 		}
@@ -267,6 +256,10 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		ball.setBallSpeedX(btempx);
 		ball.setBallSpeedY(btempy);
 		System.out.println("Game Resumed");
+	}
+	
+	public boolean getGameOver(){
+		return gameOver;
 	}
 	
 	//reset ball after score

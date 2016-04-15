@@ -26,7 +26,7 @@ public class GameOver extends JPanel implements ActionListener, KeyListener {
 		j.setSize(600, 300);
 		j.setVisible(false);
 		
-		j.setBackground(Color.BLACK);
+		setBackground(Color.BLACK);
 		j.setFocusable(false);
 		j.addKeyListener(this);
 		

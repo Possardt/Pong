@@ -20,8 +20,8 @@ public class Main {
 		pm.setFocusable(true);
 		while(!pm.getResume()){
 			if(pm.getMenu()){
-				start();
 				j.dispose();
+				start();
 				System.out.println("Return to Main");
 			}
 		}
