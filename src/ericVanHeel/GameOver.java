@@ -14,9 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GameOver extends JPanel implements ActionListener, KeyListener {
-	private volatile boolean b = false;
+
 	private static final long serialVersionUID = 1L;
 	JFrame j = new JFrame("Game Over");
+	private volatile boolean rematch, menu = false;
 	
 	public GameOver(boolean b){
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,13 +58,23 @@ public class GameOver extends JPanel implements ActionListener, KeyListener {
 		g.drawString(quit, 220, 190);
 	}
 	
+	public boolean getRematch(){
+		return rematch;
+	}
+	
+	public boolean getMenu(){
+		return menu;
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent k) {
 		if(k.getKeyCode() == KeyEvent.VK_R){
-			
+			j.dispose();
+			rematch = true;
 		}
 		if(k.getKeyCode() == KeyEvent.VK_M){
-			
+			j.dispose();
+			menu = true;
 		}
 		if(k.getKeyCode() == KeyEvent.VK_X){
 			System.exit(0);

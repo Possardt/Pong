@@ -15,6 +15,13 @@ public class Main {
 		while (!p.getIsPaused()){
 			if (p.getGameOver()){
 				go.setGameOver(true);
+				while(!go.getRematch()){
+					if(go.getMenu()){
+						j.dispose();
+						start();
+					}
+				}
+				//New Game
 			}
 			System.out.println("Game Running");
 		}
