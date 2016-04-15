@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 
 import scottCote.*;
 import danielMarciniec.*;
+import ericVanHeel.GameOver;
 import ericVanHeel.Pause;
 
 public class Main {
@@ -10,8 +11,11 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		start();
 	}
-	public static void gameRunning(PongComponents p, Pause pm, JFrame j, Menu m){
+	public static void gameRunning(PongComponents p, Pause pm, JFrame j, Menu m, GameOver go){
 		while (!p.getIsPaused()){
+			if (p.getGameOver()){
+				go.setGameOver(true);
+			}
 			System.out.println("Game Running");
 		}
 		System.out.println("Game Paused");
@@ -28,7 +32,7 @@ public class Main {
 		pm.setGamePaused(false);
 		p.requestFocusInWindow();
 		p.resumeGame();
-		gameRunning(p, pm, j, m);
+		gameRunning(p, pm, j, m, go);
 	}
 	
 	public static void start(){
@@ -45,7 +49,7 @@ public class Main {
 		j.setSize(1800, 900);
 		j.setVisible(true);
 		m.requestFocusInWindow();
-		
+		GameOver go = new GameOver(false);
 		Pause pm = new Pause(false);
 
 		while (!gameStarted) {
@@ -60,7 +64,7 @@ public class Main {
 				j.setVisible(true);
 				p.requestFocusInWindow();
 				gameStarted = true;
-				gameRunning(p, pm, j, m);
+				gameRunning(p, pm, j, m, go);
 			}
 			if (singlePlayer) {
 				j.remove(m);

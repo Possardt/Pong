@@ -60,16 +60,28 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		//player 1 score
 		if(collisionDetection.rightWallHit(ball)){
 			player1.addGoal();
-			if(player1.getScore() == 5){
+			if(player1.getScore() == 2){
 				gameOver = true;
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			resetBall();
 		}
 		//player 2 score
 		if(collisionDetection.leftWallHit(ball)){
 			player2.addGoal();
-			if(player2.getScore() == 5){
+			if(player2.getScore() == 2){
 				gameOver = true;
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			resetBall();
 		}
