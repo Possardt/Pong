@@ -77,7 +77,6 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 			j.dispose();
 			gamePaused = false;
 			resume = true;
-			notifyAll();
 		}
 		if(k.getKeyCode() == KeyEvent.VK_M){
 			j.dispose();
@@ -92,6 +91,10 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 	
 	public boolean getResume(){
 		return resume;
+	}
+	
+	public boolean getMenu(){
+		return menu;
 	}
 
 	@Override

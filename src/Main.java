@@ -58,6 +58,16 @@ public class Main {
 		pm.setGamePaused(true);
 		pm.setVisible(true);
 		pm.setFocusable(true);
+		while(!pm.getResume()){
+			if(pm.getMenu()){
+				//return to main menu
+				System.out.println("Return to Main");
+			}
+		}
+		pm.setGamePaused(false);
+		p.requestFocusInWindow();
+		p.resumeGame();
+		gameRunning(p, pm);
 	}
 }
 

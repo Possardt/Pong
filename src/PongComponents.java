@@ -26,8 +26,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	PowerUp powerUp = new PowerUp();
 	private int gameTimer = 1;
 	private boolean powerUpModeEnabled;
-	private Pause pm = new Pause(false);
 	private GameOver go = new GameOver(false);
+	float btempx, btempy;
 	
 	
 	//constructor
@@ -150,11 +150,9 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		}
 		
 		if(isPaused){
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			ball.setBallSpeedX(0);
+			ball.setBallSpeedY(0);
+			System.out.println(btempx+", "+btempy);
 		}
 		
 		//checking to see if ball hit someones paddle
@@ -240,6 +238,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		
 		if(k.getKeyCode() == KeyEvent.VK_ESCAPE){
 			isPaused = true;
+			btempx = ball.getBallSpeedX();
+			btempy = ball.getBallSpeedY();
 		}
 	}
 
@@ -260,6 +260,13 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if(k.getKeyCode() == KeyEvent.VK_DOWN){
 			downPressedPlayerTwo = false;
 		}
+	}
+	
+	public void resumeGame(){
+		isPaused = false;
+		ball.setBallSpeedX(btempx);
+		ball.setBallSpeedY(btempy);
+		System.out.println("Game Resumed");
 	}
 	
 	//reset ball after score
