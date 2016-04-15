@@ -8,6 +8,30 @@ import ericVanHeel.Pause;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
+		start();
+	}
+	public static void gameRunning(PongComponents p, Pause pm, JFrame j, Menu m){
+		while (!p.getIsPaused()){
+			System.out.println("Game Running");
+		}
+		System.out.println("Game Paused");
+		pm.setGamePaused(true);
+		pm.setVisible(true);
+		pm.setFocusable(true);
+		while(!pm.getResume()){
+			if(pm.getMenu()){
+				start();
+				j.dispose();
+				System.out.println("Return to Main");
+			}
+		}
+		pm.setGamePaused(false);
+		p.requestFocusInWindow();
+		p.resumeGame();
+		gameRunning(p, pm, j, m);
+	}
+	
+	public static void start(){
 		JFrame j = new JFrame("Pong");
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		j.setLayout(new BorderLayout());
@@ -36,7 +60,7 @@ public class Main {
 				j.setVisible(true);
 				p.requestFocusInWindow();
 				gameStarted = true;
-				gameRunning(p, pm);
+				gameRunning(p, pm, j, m);
 			}
 			if (singlePlayer) {
 				j.remove(m);
@@ -49,25 +73,6 @@ public class Main {
 				gameStarted = true;
 			} 
 		}
-	}
-	public static void gameRunning(PongComponents p, Pause pm){
-		while (!p.getIsPaused()){
-			System.out.println("Game Running");
-		}
-		System.out.println("Game Paused");
-		pm.setGamePaused(true);
-		pm.setVisible(true);
-		pm.setFocusable(true);
-		while(!pm.getResume()){
-			if(pm.getMenu()){
-				//return to main menu
-				System.out.println("Return to Main");
-			}
-		}
-		pm.setGamePaused(false);
-		p.requestFocusInWindow();
-		p.resumeGame();
-		gameRunning(p, pm);
 	}
 }
 

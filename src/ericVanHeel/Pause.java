@@ -29,7 +29,7 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 		j.setSize(600, 300);
 		j.setVisible(false);
 		
-		j.setBackground(Color.BLACK);
+		setBackground(Color.BLACK);
 		j.setFocusable(false);
 		j.addKeyListener(this);
 		repaint();
@@ -87,7 +87,6 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 			System.exit(0);
 		}
 	}
-
 	
 	public boolean getResume(){
 		return resume;
