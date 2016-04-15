@@ -1,5 +1,12 @@
 package ryanPossardt;
 
+/*
+	Class for powerups.  A random number is generated and based on what value(0.0 to 1.0)
+	it is, it selects a power up.
+	powerups include two methods, one to apply it, and one to unapply it.
+	The ball keeps track of what padde was last hit (lastPaddleHit)
+		and what paddle is the opponents paddle(nextPaddleHit)
+*/
 
 public class PowerUp {
 	private int powerUpSelector = 0;
