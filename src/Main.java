@@ -21,7 +21,7 @@ public class Main {
 						start();
 					}
 				}
-				//New Game
+				gameRunning(p, pm, j, m, go);
 			}
 			System.out.println("Game Running");
 		}

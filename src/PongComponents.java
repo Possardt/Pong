@@ -65,7 +65,6 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				try {
 					wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -79,7 +78,6 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				try {
 					wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
