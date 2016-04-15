@@ -209,7 +209,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 				sounds.playPowerUpSound();
 				g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
 				disablePowerUpBox();
-				powerUp.getRandomPowerUp(ball, ball.getNextPaddleHit());
+				powerUp.getRandomPowerUp(ball);
 			}
 	    	powerUpBox.setPowerUpTimer(powerUpBox.getPowerUpTimer() + 1);
 	    }

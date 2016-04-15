@@ -163,10 +163,10 @@ public class CollisionDetection {
 		double boxY = (double)powerUpBox.getCenterY();
 		double distance = getDistanceBetweenTwoPoints(ballX, ballY, boxX, boxY );
 		if(distance < (ball.getDiameter()/2)+25){
-			System.out.println("collision between ball and powerupbox: " + distance);
+			//System.out.println("collision between ball and powerupbox: " + distance);
 			return true;
 		}else{
-			System.out.println("distance between ball and box: " + distance);
+			//System.out.println("distance between ball and box: " + distance);
 			return false;
 		}
 	}
