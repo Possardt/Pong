@@ -21,15 +21,6 @@ public class Main {
 						start();
 					}
 				}
-				j.remove(p);
-				j.repaint();
-				PongComponents p2 = new PongComponents();
-				j.add(p2, BorderLayout.CENTER);
-				j.setSize(1800, 900);
-				j.setVisible(true);
-				p2.requestFocusInWindow();
-				gameRunning(p2, pm, j, m, go);
-				return;
 			}
 			System.out.println("Game Running");
 		}
