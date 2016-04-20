@@ -12,21 +12,22 @@ public class PowerUp {
 	private int powerUpSelector = 0;
 	private Paddle affectedPaddle;
 	
-	public void getRandomPowerUp(Ball b, Paddle p ){
+	public void getRandomPowerUp(Ball b){
 		double selector = Math.random();
-		if (selector > 0){
-			shrinkPaddle(b.getLastPaddleHit());
-			affectedPaddle = b.getLastPaddleHit();
+		System.out.println("rand chosen" + selector);
+		if (selector < .25){
+			shrinkPaddle(b.getNextPaddleHit());
+			affectedPaddle = b.getNextPaddleHit();
 			powerUpSelector = 1;
-		}else if(selector > .25){
+		}else if(selector <.5){
 			//shrink ball
 			shrinkBall(b);
 			powerUpSelector =  2;
-		}else if(selector > .5){
+		}else if(selector <.75 ){
 			slowPaddle(b.getNextPaddleHit());
 			powerUpSelector = 3;
 			affectedPaddle = b.getNextPaddleHit();
-		}else if(selector > .75){
+		}else if(selector < 1){
 			fastPaddle(b.getLastPaddleHit());
 			powerUpSelector = 4;
 			affectedPaddle = b.getLastPaddleHit();

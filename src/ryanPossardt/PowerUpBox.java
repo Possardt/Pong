@@ -64,7 +64,7 @@ public class PowerUpBox {
 	public void setNewLocation(){
 		xLocation = (int)(Math.random() * 1000) + 300;
 		yLocation = (int)(Math.random() * 1000) + 100;
-		System.out.println("new location x: " + xLocation + ", new location y: " + yLocation);
+		//System.out.println("new location x: " + xLocation + ", new location y: " + yLocation);
 		//we don't want the powerup box to appear off the map.
 		if (yLocation > 600 || xLocation > 1600){this.setNewLocation();}
 	}
