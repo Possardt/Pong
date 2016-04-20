@@ -199,6 +199,10 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    	if(powerUpBox.getPowerUpTimer() < powerUpBox.getPowerUpLength()){
 	    		g.drawRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
 	    		g.fillRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+	    		g.setColor(Color.BLACK);
+	    		String powerUpLetter = "P";
+	    		g.drawString(powerUpLetter, powerUpBox.getCenterX() - 20, powerUpBox.getCenterY() + 20);
+	    		g.setColor(Color.WHITE);
 	    		//System.out.println("enabled and timer: " + powerUpBox.getPowerUpTimer());
 	    	} else {
 	    		g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
