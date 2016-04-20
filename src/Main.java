@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		start();
 	}
-	public static void gameRunning(PongComponents p, Pause pm, JFrame j, Menu m, GameOver go){
+	public static void gameRunning2P(PongComponents p, Pause pm, JFrame j, Menu m, GameOver go){
 		while (!p.getIsPaused()){
 			if (p.getGameOver()){
 				go.setGameOver(true);
@@ -21,6 +21,8 @@ public class Main {
 						start();
 					}
 				}
+				j.dispose();
+				rematch(m);
 			}
 			//System.out.println("Game Running");
 			//pause shield will not appear unless there is a system function here...
@@ -40,7 +42,41 @@ public class Main {
 		pm.setGamePaused(false);
 		p.requestFocusInWindow();
 		p.resumeGame();
-		gameRunning(p, pm, j, m, go);
+		gameRunning2P(p, pm, j, m, go);
+	}
+	
+	public static void gameRunning1P(CPUComponents p, Pause pm, JFrame j, Menu m, GameOver go){
+		while (!p.getIsPaused()){
+			if (p.getGameOver()){
+				go.setGameOver(true);
+				while(!go.getRematch()){
+					if(go.getMenu()){
+						j.dispose();
+						start();
+					}
+				}
+				j.dispose();
+				rematch(m);
+			}
+			//System.out.println("Game Running");
+			//pause shield will not appear unless there is a system function here...
+			System.out.print("");
+		}
+		System.out.println("Game Paused");
+		pm.setGamePaused(true);
+		pm.setVisible(true);
+		pm.setFocusable(true);
+		while(!pm.getResume()){
+			if(pm.getMenu()){
+				j.dispose();
+				start();
+				System.out.println("Return to Main");
+			}
+		}
+		pm.setGamePaused(false);
+		p.requestFocusInWindow();
+		p.resumeGame();
+		gameRunning1P(p, pm, j, m, go);
 	}
 	
 	public static void start(){
@@ -72,7 +108,7 @@ public class Main {
 				j.setVisible(true);
 				p.requestFocusInWindow();
 				gameStarted = true;
-				gameRunning(p, pm, j, m, go);
+				gameRunning2P(p, pm, j, m, go);
 			}
 			if (singlePlayer) {
 				j.remove(m);
@@ -83,8 +119,39 @@ public class Main {
 				j.setVisible(true);
 				cp.requestFocusInWindow();
 				gameStarted = true;
+				gameRunning1P(cp, pm, j, m, go);
 			} 
 		}
+	}
+	public static void rematch(Menu m){
+		JFrame j = new JFrame("Pong");
+		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		j.setLayout(new BorderLayout());
+		
+		boolean singlePlayer = m.getSinglePlayerGameStatus();
+		boolean twoPlayer = m.getTwoPlayerGameStatus();
+		Pause pm = new Pause(false);
+		GameOver go = new GameOver(false);
+		if (twoPlayer) {
+			j.remove(m);
+			j.repaint();
+			PongComponents p = new PongComponents();
+			j.add(p, BorderLayout.CENTER);
+			j.setSize(1800, 900);
+			j.setVisible(true);
+			p.requestFocusInWindow();
+			gameRunning2P(p, pm, j, m, go);
+		}
+		if (singlePlayer) {
+			j.remove(m);
+			j.repaint();
+			CPUComponents cp = new CPUComponents();
+			j.add(cp, BorderLayout.CENTER);
+			j.setSize(1800, 900);
+			j.setVisible(true);
+			cp.requestFocusInWindow();
+			gameRunning1P(cp, pm, j, m, go);
+		} 
 	}
 }
 

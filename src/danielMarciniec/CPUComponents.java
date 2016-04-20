@@ -15,11 +15,12 @@ import ryanPossardt.*;
 
 public class CPUComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();
-	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo = false;
+	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo, isPaused, gameOver = false;
 	private static final long serialVersionUID = 1L;
 	private Paddle player1 = new Paddle(0,100);
 	private Paddle player2 = new Paddle(1737,100);
 	CollisionDetection collisionDetection = new CollisionDetection();
+	float btempx, btempy;
 	//constructor
 	public CPUComponents(){
 		setBackground(Color.BLACK);
@@ -36,11 +37,27 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 		//moving the ball on the court
 		if(ball.getBallx() >= 1720){
 			player1.addGoal();
+			if(player1.getScore() == 5){
+				gameOver = true;
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
 		if(ball.getBallx() <= 0){
 			player2.addGoal();
+			if(player2.getScore() == 5){
+				gameOver = true;
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
@@ -90,6 +107,12 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			if(player2.getPaddleY() + player2.getPaddleSpeed() + 140 < getHeight()){
 				player2.setPaddleY(player2.getPaddleY() + player2.getPaddleSpeed());
 			}
+		}
+		
+		if(isPaused){
+			ball.setBallSpeedX(0);
+			ball.setBallSpeedY(0);
+			//System.out.println(btempx+", "+btempy);
 		}
 		
 		//checking to see if ball hit someone's paddle
@@ -148,6 +171,11 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			}
 			if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
 				downPressedPlayerOne = true;
+			}
+			if(k.getKeyCode() == KeyEvent.VK_ESCAPE){
+				isPaused = true;
+				btempx = ball.getBallSpeedX();
+				btempy = ball.getBallSpeedY();
 			}
 		}
 		
@@ -216,6 +244,20 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 		ball.setBally(400);
 		ball.setBallSpeedX(3);
 		ball.setBallSpeedY(3);
+	}
+	
+	public void resumeGame(){
+		isPaused = false;
+		ball.setBallSpeedX(btempx);
+		ball.setBallSpeedY(btempy);
+		//System.out.println("Game Resumed");
+	}
+	
+	public boolean getIsPaused(){
+		return isPaused;
+	}
+	public boolean getGameOver(){
+		return gameOver;
 	}
 
 	@Override
