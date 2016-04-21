@@ -71,7 +71,7 @@ public class PowerUp {
 	}
 	
 	public void unSlowPaddle(Paddle p){
-		p.setPaddleSpeed(p.getPaddleSpeed() * 2);
+		p.setPaddleSpeed((p.getPaddleSpeed() * 2) + 1);
 	}
 	
 	public void fastPaddle(Paddle p){

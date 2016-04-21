@@ -6,7 +6,7 @@ public class PowerUpBox {
 	private int yLocation = (int)(Math.random() * 1000);
 	private boolean isEnabled = false;
 	private int powerUpTimer = 0;
-	private int powerUpLength = 300;
+	private int powerUpLength = 400;
 	
 	public PowerUpBox(){
 		setNewLocation();
