@@ -16,8 +16,8 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	private Ball ball = new Ball();
 	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo, isPaused, gameOver = false;
 	private static final long serialVersionUID = 1L;
-	private Paddle player1 = new Paddle(0,100);
-	private Paddle player2 = new Paddle(1737,100);
+	private Paddle player1 = new Paddle(0,350);
+	private Paddle player2 = new Paddle(1737,350);
 	CollisionDetection collisionDetection = new CollisionDetection();
 	Sound sounds = new Sound();
 	PowerUpBox powerUpBox = new PowerUpBox();
@@ -40,7 +40,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		//initial ball speed and location random
 		ball.setBallx(getRandomLocation(650, 1050));
 		ball.setBally(getRandomLocation(50,750));
-		ball.setBallSpeedX(getRandomSpeed());
+		ball.setBallSpeedX(getRandomXSpeed());
 		ball.setBallSpeedY(getRandomSpeed());
 		
 		powerUpModeEnabled = Menu.powerUpModeEnabled;
@@ -286,7 +286,7 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		//need to set and move ball randomly off reset
 		ball.setBallx(getRandomLocation(650, 1050));
 		ball.setBally(getRandomLocation(50,750));
-		ball.setBallSpeedX(getRandomSpeed());
+		ball.setBallSpeedX(getRandomXSpeed());
 		ball.setBallSpeedY(getRandomSpeed());
 	}
 		
@@ -296,6 +296,13 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 		if (sign < 0){
 			speed = speed * sign;
 		}
+		return (int)speed;
+	}
+	
+	private int getRandomXSpeed(){
+		double speed = (Math.random() * 6) + 3;
+		if(speed < 5)
+			return getRandomXSpeed();
 		return (int)speed;
 	}
 	
