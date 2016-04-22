@@ -12,15 +12,23 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import ryanPossardt.*;
+import scottCote.Menu;
 
 public class CPUComponents extends JPanel implements ActionListener, KeyListener{
 	private Ball ball = new Ball();
 	private boolean upPressedPlayerOne, downPressedPlayerOne, upPressedPlayerTwo, downPressedPlayerTwo, isPaused, gameOver = false;
 	private static final long serialVersionUID = 1L;
-	private Paddle player1 = new Paddle(0,100);
-	private Paddle player2 = new Paddle(1737,100);
+	private Paddle player1 = new Paddle(0,350);
+	private Paddle player2 = new Paddle(1737,350);
 	CollisionDetection collisionDetection = new CollisionDetection();
+	Sound sounds = new Sound();
+	PowerUpBox powerUpBox = new PowerUpBox();
+	PowerUp powerUp = new PowerUp();
+	private int gameTimer = 1;
+	private boolean powerUpModeEnabled;
 	float btempx, btempy;
+	
+	
 	//constructor
 	public CPUComponents(){
 		setBackground(Color.BLACK);
@@ -28,14 +36,28 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 		setFocusable(true);
 		addKeyListener(this);
 		
-		Timer timer = new Timer(1000/60, this);
+		Timer timer = new Timer(1000/70, this);
 		timer.start();
+		
+		//initial ball speed and location random
+		ball.setBallx(getRandomLocation(650, 1050));
+		ball.setBally(getRandomLocation(50,750));
+		ball.setBallSpeedX(getRandomXSpeed());
+		ball.setBallSpeedY(getRandomSpeed());
+		
+		powerUpModeEnabled = Menu.powerUpModeEnabled;
+		powerUpBox.setEnabled(false);		//initialize as false, change if needed.
 	}
 	
 	//method for moving objects
 	public void step(){
-		//moving the ball on the court
-		if(ball.getBallx() >= 1720){
+		
+		//move ball x and y once per step
+		ball.setBallx(ball.getBallx() + ball.getBallSpeedX());
+		ball.setBally(ball.getBally() + ball.getBallSpeedY());
+		
+		//player 1 score
+		if(collisionDetection.rightWallHit(ball)){
 			player1.addGoal();
 			if(player1.getScore() == 5){
 				gameOver = true;
@@ -45,10 +67,10 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 					e.printStackTrace();
 				}
 			}
-			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
-		if(ball.getBallx() <= 0){
+		//player 2 score
+		if(collisionDetection.leftWallHit(ball)){
 			player2.addGoal();
 			if(player2.getScore() == 5){
 				gameOver = true;
@@ -58,41 +80,60 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 					e.printStackTrace();
 				}
 			}
-			ball.setDirectionballx(ball.getDirectionballx() + 1);
 			resetBall();
 			}
-		
-		if(ball.getBally() >= 793 || ball.getBally() <= 0){
-			ball.setDirectionbally(ball.getDirectionbally() + 1);
-		}
-		//System.out.println("Player one x: "+ player1.getPaddleX() +", player one y: "+ player1.getPaddleY() +" X: " + ball.getBallx() + " , Y: " + ball.getBally());
-		//System.out.println("Player two x: " + player2.getPaddleX() + ", Player two y: " + player2.getPaddleY());
-		if(ball.getDirectionballx()%2 == 0){
-			ball.setBallx(ball.getBallx() - ball.getBallSpeedX());
-		}else{
-			ball.setBallx(ball.getBallx() + ball.getBallSpeedX());
+		//top or bottom wall bounce
+		if(collisionDetection.horizontalWallHit(ball)){
+			ball.setBallSpeedY(ball.getBallSpeedY()*-1);
 		}
 		
-		if(ball.getDirectionbally()%2 == 0){
-			ball.setBally(ball.getBally() - ball.getBallSpeedY());
-		}else{
-			ball.setBally(ball.getBally() + ball.getBallSpeedY());
+		//left paddle hit processing
+		if(collisionDetection.topHit(ball, player1) || collisionDetection.bottomHit(ball, player1)){
+			if (!powerUpModeEnabled){
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1 +1);
+			}else{
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1);
+			}
+			if (collisionDetection.topHit(ball, player1)){
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed() * -1);
+			}else{
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed());
+			}
+			ball.setLastPaddleHit(player1);
+			ball.setNextPaddleHit(player2);
+			sounds.leftPaddleHitSound();
+		}
+		
+		//right paddle hit processing
+		if(collisionDetection.topHit(ball, player2) || collisionDetection.bottomHit(ball, player2)){
+			if (!powerUpModeEnabled){
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1 -1);
+			}else{
+				ball.setBallSpeedX(ball.getBallSpeedX()*-1);
+			}
+			if (collisionDetection.topHit(ball, player2)){
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed()*-1);
+			}else{
+				ball.setBallSpeedY(collisionDetection.calculateYBallSpeed());
+			}
+			ball.setLastPaddleHit(player2);
+			ball.setNextPaddleHit(player1);
+			sounds.rightPaddleHitSound();
 		}
 		
 		startMove();
 		endMove();
 		
-		//moving player ones paddle
+		//moving player's paddle
 		//up pressed
 		if(upPressedPlayerOne){
 			if(player1.getPaddleY()- player1.getPaddleSpeed() > 0){
 				player1.setPaddleY(player1.getPaddleY()- player1.getPaddleSpeed()) ;
 			}
 		}
-		
 		//down pressed
 		if(downPressedPlayerOne){
-			if(player1.getPaddleY() + player1.getPaddleSpeed() + 140 < getHeight()){
+			if(player1.getPaddleY() + player1.getPaddleSpeed() + player1.getPaddleSizeY() < getHeight()){
 				player1.setPaddleY(player1.getPaddleY() + player1.getPaddleSpeed());
 			}
 		}
@@ -104,7 +145,7 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			}
 		}
 		if(downPressedPlayerTwo){
-			if(player2.getPaddleY() + player2.getPaddleSpeed() + 140 < getHeight()){
+			if(player2.getPaddleY() + player2.getPaddleSpeed() + player2.getPaddleSizeY() < getHeight()){
 				player2.setPaddleY(player2.getPaddleY() + player2.getPaddleSpeed());
 			}
 		}
@@ -116,8 +157,8 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 		}
 		
 		//checking to see if ball hit someone's paddle
-		collisionDetection.hitPaddle(ball, player1);
-		collisionDetection.hitPaddle(ball, player2);
+		//collisionDetection.hitPaddle(ball, player1);
+		//collisionDetection.hitPaddle(ball, player2);
 		
 		
 		//repaint to show reflected changes
@@ -130,44 +171,57 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 		g.setColor(Color.WHITE);
 		Font font = new Font("Bauhaus 93", Font.PLAIN, 60);
 		g.setFont(font);
-	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), 50, 50);
+	    g.fillOval((int)ball.getBallx(), (int)ball.getBally(), ball.getDiameter(), ball.getDiameter());
 
-	    
 	    //lines down center of court
 	    //getWidth()/2 yields 889
-	    g.drawRect(884, 0, 10, 100);
 	    g.fillRect(884, 0, 10, 100);
-	    g.drawRect(884, 150, 10, 100);
 	    g.fillRect(884, 150, 10, 100);
-	    g.drawRect(884, 300, 10, 100);
 	    g.fillRect(884, 300, 10, 100);
-	    g.drawRect(884, 450, 10, 100);
 	    g.fillRect(884, 450, 10, 100);
-	    g.drawRect(884, 600, 10, 100);
 	    g.fillRect(884, 600, 10, 100);
-	    g.drawRect(884, 750, 10, 100);
 	    g.fillRect(884, 750, 10, 100);
 	    
 	    //score
 	    String p1score = Integer.toString(player1.getScore());
 	    String p2score = Integer.toString(player2.getScore());
-	    g.drawString(p1score, 774, 70);
+	    g.drawString(p1score, 784, 70);
 	    g.drawString(p2score, 974, 70);
-	    
-	    if(!isPaused){
-		    Font font1 = new Font("Elephant", Font.PLAIN, 20);
-			g.setFont(font1);
-		    g.drawString("Press ESC to pause", 30, 30);
-	    }
-	    g.setFont(font);
 
 	    //player one paddle
-	    g.drawRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
-	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), 40, 150);
+	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), player1.getPaddleSizeX(), player1.getPaddleSizeY());
 	    //player two paddle
-	    g.drawRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
-	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), 40, 150);
+	    g.fillRect(player2.getPaddleX() , player2.getPaddleY(), player2.getPaddleSizeX(), player2.getPaddleSizeY());
+	    
+	    if(powerUpModeEnabled && (gameTimer % 1000) == 0){
+	    	powerUpBox.setEnabled(true);
+	    	powerUp.undoPowerUp(ball);
+	    	}
+	    //powerup generator
+	    if(powerUpBox.isEnabled()){
 
+	    	//powerUp.setNewLocation();
+	    	if(powerUpBox.getPowerUpTimer() < powerUpBox.getPowerUpLength()){
+	    		g.drawRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+	    		g.fillRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+	    		g.setColor(Color.BLACK);
+	    		String powerUpLetter = "P";
+	    		g.drawString(powerUpLetter, powerUpBox.getCenterX() - 20, powerUpBox.getCenterY() + 20);
+	    		g.setColor(Color.WHITE);
+	    		//System.out.println("enabled and timer: " + powerUpBox.getPowerUpTimer());
+	    	} else {
+	    		g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+	    		disablePowerUpBox();
+	    	}
+	    	//detection for collision between ball and power up box.
+			if(collisionDetection.powerUpBoxHit(ball, powerUpBox)){
+				sounds.playPowerUpSound();
+				g.clearRect(powerUpBox.getxLocation(), powerUpBox.getyLocation(), 50, 50);
+				disablePowerUpBox();
+				powerUp.getRandomPowerUp(ball);
+			}
+	    	powerUpBox.setPowerUpTimer(powerUpBox.getPowerUpTimer() + 1);
+	    }
 	}
 
 	//player paddle movement
@@ -201,8 +255,8 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			float delta = (ball.getBally() - player2.getPaddleY()) - 50;
 			double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta);
 			if(delta < 0) {speed = speed * -1;}
-			if(ball.getDirectionbally()%2 == 0) {	//ball moving up
-				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+			if(ball.getBallSpeedY() < 0) {	//ball moving up
+				if(ball.getBallSpeedX() < 0){	//ball moving left
 					if(speed < -125 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
 					if(speed > 175 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
 				}else{	//ball moving right
@@ -210,7 +264,7 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 					if(speed >= 100 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
 				}
 			}else{	//ball moving down
-				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+				if(ball.getBallSpeedX() < 0){	//ball moving left
 					if(speed < -175 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
 					if(speed > 125 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
 				}else{	//ball moving right
@@ -226,8 +280,8 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			float delta = (ball.getBally() - player2.getPaddleY()) - 50;
 			double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta);
 			if(delta < 0) {speed = speed * -1;}
-			if(ball.getDirectionbally()%2 == 0){	//ball moving up
-				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+			if(ball.getBallSpeedY() < 0){	//ball moving up
+				if(ball.getBallSpeedX() < 0){	//ball moving left
 					if(speed > 100) {upPressedPlayerTwo = false;}
 					if(speed < 150) {downPressedPlayerTwo = false;}
 				}else{	//ball moving right
@@ -235,7 +289,7 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 					if(speed < 100) {downPressedPlayerTwo = false;}
 				}
 			}else{	//ball moving down
-				if(ball.getDirectionballx()%2 == 0){	//ball moving left
+				if(ball.getBallSpeedX() < 0){	//ball moving left
 					if(speed > -150) {upPressedPlayerTwo = false;}
 					if(speed < -100) {downPressedPlayerTwo = false;}
 				}else{	//ball moving right
@@ -247,10 +301,40 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 	
 	//reset ball after score
 	public void resetBall(){
-		ball.setBallx(900);
-		ball.setBally(400);
-		ball.setBallSpeedX(3);
-		ball.setBallSpeedY(3);
+		sounds.playScoreSound();
+		//hold ball in center before game starts
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//need to set and move ball randomly off reset
+		ball.setBallx(getRandomLocation(650, 1050));
+		ball.setBally(getRandomLocation(50,750));
+		ball.setBallSpeedX(getRandomXSpeed());
+		ball.setBallSpeedY(getRandomSpeed());
+	}
+	
+	private int getRandomSpeed(){
+		double speed = (Math.random()*5)+3;
+		long sign = Math.round((Math.random()*2)-1);
+		if (sign < 0){
+			speed = speed * sign;
+		}
+		return (int)speed;
+	}
+	
+	private int getRandomXSpeed(){
+		double speed = (Math.random() * 6) + 3;
+		if(speed < 5)
+			return getRandomXSpeed();
+		return (int)speed;
+	}
+	
+	private int getRandomLocation(int min, int max){
+		double location = (Math.random()*(max-min)) + min;
+		System.out.println(location);
+		return (int)location;
 	}
 	
 	public void resumeGame(){
@@ -275,7 +359,15 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		gameTimer++;
+		//System.out.println(gameTimer);
 		step();
+	}
+	
+	public void disablePowerUpBox(){
+		powerUpBox.setEnabled(false);
+		powerUpBox.setPowerUpTimer(0);
+		powerUpBox.setNewLocation();
 	}
 	
 }
