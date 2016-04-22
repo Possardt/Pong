@@ -180,8 +180,15 @@ public class PongComponents extends JPanel implements ActionListener, KeyListene
 	    //score
 	    String p1score = Integer.toString(player1.getScore());
 	    String p2score = Integer.toString(player2.getScore());
-	    g.drawString(p1score, 784, 70);
+	    g.drawString(p1score, 774, 70);
 	    g.drawString(p2score, 974, 70);
+	    
+	    if(!isPaused){
+		    Font font1 = new Font("Elephant", Font.PLAIN, 20);
+			g.setFont(font1);
+		    g.drawString("Press ESC to pause", 30, 30);
+	    }
+	    g.setFont(font);
 
 	    //player one paddle
 	    g.fillRect(player1.getPaddleX() , player1.getPaddleY(), player1.getPaddleSizeX(), player1.getPaddleSizeY());

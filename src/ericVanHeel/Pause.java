@@ -57,8 +57,8 @@ public class Pause extends JPanel implements ActionListener, KeyListener
 	public void paint(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
-		Font titleFont = new Font("Agency FB", Font.BOLD, 40);
-		Font optionsFont = new Font ("Agency FB", Font.BOLD, 25);
+		Font titleFont = new Font("Bauhaus 93", Font.BOLD, 40);
+		Font optionsFont = new Font ("Bauhaus 93", Font.BOLD, 25);
 		g.setFont(titleFont);
 		String title = "Game Paused";
 		String resumeGame = "(R) Resume Game";
