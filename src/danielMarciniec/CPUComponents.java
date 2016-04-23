@@ -61,6 +61,7 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			player1.addGoal();
 			if(player1.getScore() == 5){
 				gameOver = true;
+				sounds.playGameOverSound();
 				try {
 					wait();
 				} catch (InterruptedException e) {
@@ -74,6 +75,7 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 			player2.addGoal();
 			if(player2.getScore() == 5){
 				gameOver = true;
+				sounds.playGameOverSound();
 				try {
 					wait();
 				} catch (InterruptedException e) {

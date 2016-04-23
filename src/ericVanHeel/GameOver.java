@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import ryanPossardt.Sound;
+
 public class GameOver extends JPanel implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;

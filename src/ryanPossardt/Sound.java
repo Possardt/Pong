@@ -55,5 +55,15 @@ public class Sound {
 			e.printStackTrace();
 		}
 	}
+	public void playGameOverSound(){
+		try{
+			InputStream inputStream = getClass().getResourceAsStream("gameOverSound.wav");
+			AudioStream audioStream = new AudioStream(inputStream);
+			AudioPlayer.player.start(audioStream);
+		}catch(Exception e){
+			System.out.println("Sound not played");
+			e.printStackTrace();
+		}
+	}
 	
 }
