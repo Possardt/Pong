@@ -227,79 +227,83 @@ public class CPUComponents extends JPanel implements ActionListener, KeyListener
 	}
 
 	//player paddle movement
-		@Override
-		public void keyPressed(KeyEvent k) {
-			if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
-				upPressedPlayerOne = true;
+	@Override
+	public void keyPressed(KeyEvent k) {
+		if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
+			upPressedPlayerOne = true;
+		}
+		if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
+			downPressedPlayerOne = true;
+		}
+		if(k.getKeyCode() == KeyEvent.VK_ESCAPE){
+			isPaused = true;
+			btempx = ball.getBallSpeedX();
+			btempy = ball.getBallSpeedY();
+		}
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent k) {
+		if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
+			upPressedPlayerOne = false;
+		}
+		if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
+			downPressedPlayerOne = false;
+		}
+	}
+	
+	//CPU paddle movement
+	public void startMove() {
+		float delta = ball.getBally() - player2.getPaddleCenterY();
+		double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta) - player2.getPaddleSpeed();
+		if(delta < 0) {speed = -1*speed;}
+		if(ball.getBallSpeedY() < 0) {	//ball moving up
+			if(ball.getBallSpeedX() < 0){	//ball moving left
+				if(speed < -1*player2.getPaddleSizeY()/2 && player2.getPaddleY() > 300) {upPressedPlayerTwo = true;}
+				if(speed > 1.25*player2.getPaddleSizeY()/2 && player2.getPaddleY() < 600 - player2.getPaddleSizeY()) {downPressedPlayerTwo = true;}
+			}else{	//ball moving right
+				if(speed < .15*player2.getPaddleSizeY()/2 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
+				if(speed > player2.getPaddleSizeY()/2 && player2.getPaddleY() < 900 - player2.getPaddleSizeY()) {downPressedPlayerTwo = true;}
 			}
-			if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
-				downPressedPlayerOne = true;
-			}
-			if(k.getKeyCode() == KeyEvent.VK_ESCAPE){
-				isPaused = true;
-				btempx = ball.getBallSpeedX();
-				btempy = ball.getBallSpeedY();
+		}else{	//ball moving down
+			if(ball.getBallSpeedX() < 0){	//ball moving left
+				if(speed < -1.25*player2.getPaddleSizeY()/2 && player2.getPaddleY() > 300) {upPressedPlayerTwo = true;}
+				if(speed > player2.getPaddleSizeY()/2 && player2.getPaddleY() < 600 - player2.getPaddleSizeY()) {downPressedPlayerTwo = true;}
+			}else{	//ball moving right
+				if(speed < -1*player2.getPaddleSizeY()/2 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
+				if(speed > -.15*player2.getPaddleSizeY()/2 && player2.getPaddleY() < 900 - player2.getPaddleSizeY()) {downPressedPlayerTwo = true;}
 			}
 		}
-		
-		@Override
-		public void keyReleased(KeyEvent k) {
-			if(k.getKeyCode() == KeyEvent.VK_W || k.getKeyCode() == KeyEvent.VK_UP){
-				upPressedPlayerOne = false;
+		if(ball.getBallSpeedX() < 0){	//ball moving left
+			if(player2.getPaddleY() < 300) {downPressedPlayerTwo = true;}	//paddle near top
+			if(player2.getPaddleY() > 600 - player2.getPaddleSizeY()){upPressedPlayerTwo = true;}	//paddle near bottom
+		}
+	}
+	
+	public void endMove() {
+		if(player2.getPaddleY() <= 0) {upPressedPlayerTwo = false;}	//paddle at top
+		if(player2.getPaddleY() >= 900 - player2.getPaddleSizeY()){downPressedPlayerTwo = false;}	//paddle at bottom
+		float delta = ball.getBally() - player2.getPaddleCenterY();
+		double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta) - player2.getPaddleSpeed();
+		if(delta < 0) {speed = -1*speed;}
+		if(ball.getBallSpeedY() < 0){	//ball moving up
+			if(ball.getBallSpeedX() < 0){	//ball moving left
+				if(speed > .5*player2.getPaddleSizeY()/2 || player2.getPaddleY() <= 300) {upPressedPlayerTwo = false;}
+				if(speed < player2.getPaddleSizeY()/2 || player2.getPaddleY() >= 600 - player2.getPaddleSizeY()) {downPressedPlayerTwo = false;}
+			}else{	//ball moving right
+				if(speed > .95*player2.getPaddleSizeY()/2) {upPressedPlayerTwo = false;}
+				if(speed <= player2.getPaddleSizeY()/2) {downPressedPlayerTwo = false;}
 			}
-			if(k.getKeyCode() == KeyEvent.VK_S || k.getKeyCode() == KeyEvent.VK_DOWN){
-				downPressedPlayerOne = false;
+		}else{	//ball moving down
+			if(ball.getBallSpeedX() < 0){	//ball moving left
+				if(speed > -1*player2.getPaddleSizeY()/2 || player2.getPaddleY() <= 300) {upPressedPlayerTwo = false;}
+				if(speed < .5*player2.getPaddleSizeY()/2 || player2.getPaddleY() >= 600 - player2.getPaddleSizeY()) {downPressedPlayerTwo = false;}
+			}else{	//ball moving right
+				if(speed >= -1*player2.getPaddleSizeY()/2) {upPressedPlayerTwo = false;}
+				if(speed < -.95*player2.getPaddleSizeY()/2) {downPressedPlayerTwo = false;}
 			}
 		}
-		
-		//CPU paddle movement
-		public void startMove() {
-			float delta = (ball.getBally() - player2.getPaddleY()) - 50;
-			double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta);
-			if(delta < 0) {speed = speed * -1;}
-			if(ball.getBallSpeedY() < 0) {	//ball moving up
-				if(ball.getBallSpeedX() < 0){	//ball moving left
-					if(speed < -125 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
-					if(speed > 175 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
-				}else{	//ball moving right
-					if(speed < 0 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
-					if(speed >= 100 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
-				}
-			}else{	//ball moving down
-				if(ball.getBallSpeedX() < 0){	//ball moving left
-					if(speed < -175 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
-					if(speed > 125 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
-				}else{	//ball moving right
-					if(speed <= -100 && player2.getPaddleY() > 0) {upPressedPlayerTwo = true;}
-					if(speed > 0 && player2.getPaddleY() < 700) {downPressedPlayerTwo = true;}
-				}
-			}
-		}
-		
-		public void endMove() {
-			if(player2.getPaddleY() <= 0) {upPressedPlayerTwo = false;}	//paddle at top
-			if(player2.getPaddleY() >= 700){downPressedPlayerTwo = false;}	//paddle at bottom
-			float delta = (ball.getBally() - player2.getPaddleY()) - 50;
-			double speed = Math.sqrt((ball.getBallSpeedX()*ball.getBallSpeedX()) + (ball.getBallSpeedY()*ball.getBallSpeedY())) + Math.abs(delta);
-			if(delta < 0) {speed = speed * -1;}
-			if(ball.getBallSpeedY() < 0){	//ball moving up
-				if(ball.getBallSpeedX() < 0){	//ball moving left
-					if(speed > 100) {upPressedPlayerTwo = false;}
-					if(speed < 150) {downPressedPlayerTwo = false;}
-				}else{	//ball moving right
-					if(speed > 85) {upPressedPlayerTwo = false;}
-					if(speed < 100) {downPressedPlayerTwo = false;}
-				}
-			}else{	//ball moving down
-				if(ball.getBallSpeedX() < 0){	//ball moving left
-					if(speed > -150) {upPressedPlayerTwo = false;}
-					if(speed < -100) {downPressedPlayerTwo = false;}
-				}else{	//ball moving right
-					if(speed > -100) {upPressedPlayerTwo = false;}
-					if(speed < -85) {downPressedPlayerTwo = false;}
-				}
-			}
-		}
+	}
 	
 	//reset ball after score
 	public void resetBall(){
